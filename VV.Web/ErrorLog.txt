@@ -1,0 +1,126 @@
+Time: 08/06/2017 10:38:40 PM
+-----------------------------------------------------------
+Message: Thread was being aborted.
+Exception from SQLConnectionOpen-Exception from login screen
+-----------------------------------------------------------
+
+Time: 13/10/2018 10:35:57 PM
+-----------------------------------------------------------
+Message: A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: SQL Network Interfaces, error: 26 - Error Locating Server/Instance Specified)
+Exception from SQLConnectionOpen-Exception from login screen
+-----------------------------------------------------------
+
+Time: 13/10/2018 10:51:52 PM
+-----------------------------------------------------------
+Message: A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: SQL Network Interfaces, error: 26 - Error Locating Server/Instance Specified)
+Exception from SQLConnectionOpen-Exception from login screen
+-----------------------------------------------------------
+
+Time: 13/10/2018 10:51:52 PM
+-----------------------------------------------------------
+Message: A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: SQL Network Interfaces, error: 26 - Error Locating Server/Instance Specified)
+Exception from SQLConnectionOpen-Exception from login screen
+-----------------------------------------------------------
+
+Time: 13/10/2018 11:14:32 PM
+-----------------------------------------------------------
+Message: The type initializer for 'Microsoft.Practices.EnterpriseLibrary.Common.Configuration.ObjectBuilder.EnterpriseLibraryFactory' threw an exception.
+Exception from SQLConnectionOpen-Exception from login screen
+-----------------------------------------------------------
+
+Time: 15-05-2019 10:37:35 PM
+-----------------------------------------------------------
+Message: Thread was being aborted.
+Exception from SQLConnectionOpen-Exception from login screen
+-----------------------------------------------------------
+
+Time: 15-05-2019 10:40:37 PM
+-----------------------------------------------------------
+Message: Thread was being aborted.
+Exception from SQLConnectionOpen-Exception from login screen
+-----------------------------------------------------------
+
+Time: 15-05-2019 10:40:37 PM
+-----------------------------------------------------------
+Message: Thread was being aborted.
+Exception from SQLConnectionOpen-Exception from login screen
+-----------------------------------------------------------
+
+Time: 15-05-2019 10:40:48 PM
+-----------------------------------------------------------
+Message: Thread was being aborted.
+Exception from SQLConnectionOpen-Exception from login screen
+-----------------------------------------------------------
+
+Time: 15-05-2019 10:40:58 PM
+-----------------------------------------------------------
+Message: Thread was being aborted.
+Exception from SQLConnectionOpen-Exception from login screen
+-----------------------------------------------------------
+
+Time: 16/05/2019 08:50:17 PM
+-----------------------------------------------------------
+Message: The type initializer for 'Microsoft.Practices.EnterpriseLibrary.Common.Configuration.ObjectBuilder.EnterpriseLibraryFactory' threw an exception.
+Exception from SQLConnectionOpen-Exception from login screen
+-----------------------------------------------------------
+
+Time: 16/05/2019 08:57:32 PM
+-----------------------------------------------------------
+Message: The type initializer for 'Microsoft.Practices.EnterpriseLibrary.Common.Configuration.ObjectBuilder.EnterpriseLibraryFactory' threw an exception.
+Exception from SQLConnectionOpen-Exception from login screen
+-----------------------------------------------------------
+
+Time: 16/05/2019 08:59:47 PM
+-----------------------------------------------------------
+Message: Thread was being aborted.
+Exception from SQLConnectionOpen-Exception from login screen
+-----------------------------------------------------------
+
+Time: 16/05/2019 09:00:06 PM
+-----------------------------------------------------------
+Message: Thread was being aborted.
+Exception from SQLConnectionOpen-Exception from login screen
+-----------------------------------------------------------
+
+Time: 19/05/2019 09:33:31 PM
+-----------------------------------------------------------
+Message: The type initializer for 'Microsoft.Practices.EnterpriseLibrary.Common.Configuration.ObjectBuilder.EnterpriseLibraryFactory' threw an exception.
+Exception from SQLConnectionOpen-Exception from login screen
+-----------------------------------------------------------
+
+Time: 25/05/2019 02:52:55 PM
+-----------------------------------------------------------
+Message: Object reference not set to an instance of an object.
+Exception from SQLConnectionOpen-Exception from while updating row from Sale Order Qty Decrement.
+-----------------------------------------------------------
+
+Time: 04/06/2019 11:38:02 AM
+-----------------------------------------------------------
+Message: Thread was being aborted.
+Exception from SQLConnectionOpen-Exception from login screen
+-----------------------------------------------------------
+
+Time: 04/06/2019 11:38:33 AM
+-----------------------------------------------------------
+Message: Thread was being aborted.
+Exception from SQLConnectionOpen-Exception from login screen
+-----------------------------------------------------------
+
+Time: 07/06/2019 09:21:55 AM
+-----------------------------------------------------------
+Message: Input string was not in a correct format.
+Exception from SQLConnectionOpen-Exception from while updating row from Sale Order Qty Decrement.
+-----------------------------------------------------------
+
+Time: 09/06/2019 01:06:41 PM
+-----------------------------------------------------------
+Message: Input string was not in a correct format.
+Exception from SQLConnectionOpen-Exception from while updating row from Sale Order Qty Decrement.
+-----------------------------------------------------------
+
+Time: 09/06/2019 07:36:06 PM
+-----------------------------------------------------------
+Message: Could not find a part of the path 'F:\CodeBase\Engineering\Tab\VV.Web\VV.Web\FileUpload\'.
+Exception from SQLConnectionOpen-Exception from while inserting patrol main grid details
+-----------------------------------------------------------
+
