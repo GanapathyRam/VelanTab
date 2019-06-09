@@ -17,8 +17,13 @@
 }
 .loc-grid-button{
     text-align:center;
+    margin-left: 215px;
+}
+.loc-grid-updatebutton{
+    text-align:center;
     /*padding:20px;*/
     margin-left: 215px;
+    margin-bottom:50px;
 }
 .sec-grid {
     margin: 10px 0;

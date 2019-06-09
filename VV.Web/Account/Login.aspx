@@ -9,7 +9,6 @@
     <%--<h2><%: Title %>.</h2>--%>
     <link href="../Content/Site.css" rel="stylesheet" />
     <div class="row login_container" style="width:550px; padding:30px; border-radius:10px; margin-top:100px; border:1px solid #ccc;">
-        <div class="col-md-12">
             <section id="loginForm">
                 <div class="form-horizontal">
                    
@@ -22,8 +21,8 @@
                         <asp:Label runat="server" CssClass="col-md-2 control-label">Sign In:</asp:Label>
                     </div>--%>
                     <div class="form-group">
-                        <asp:Label runat="server" AssociatedControlID="UserName" CssClass="col-md-4 control-label">Username</asp:Label>
-                        <div class="col-md-8">
+                        <asp:Label runat="server" AssociatedControlID="UserName" CssClass="col-md-4 col-sm-4 col-xs-4 control-label">Username</asp:Label>
+                        <div class="col-md-8 col-sm-8 col-xs-8">
                             <asp:TextBox runat="server" ID="UserName" CssClass="form-control" Autofocus="true" />
                             <div>
                                 <asp:RequiredFieldValidator runat="server" ControlToValidate="UserName"
@@ -32,8 +31,8 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <asp:Label runat="server" AssociatedControlID="Password" CssClass="col-md-4 control-label">Password</asp:Label>
-                        <div class="col-md-8">
+                        <asp:Label runat="server" AssociatedControlID="Password" CssClass="col-md-4 col-sm-4 col-xs-4 control-label">Password</asp:Label>
+                        <div class="col-md-8 col-sm-8 col-xs-8">
                             <asp:TextBox runat="server" ID="Password" TextMode="Password" CssClass="form-control" />
                             <div>
                                 <asp:RequiredFieldValidator runat="server" ControlToValidate="Password" CssClass="text-danger" ErrorMessage="The password field is required." />
@@ -49,14 +48,13 @@
                         </div>
                     </div>--%>
                     <div class="form-group">
-                        <div class="col-md-offset-2 col-md-6" style="text-align:center;">
+                        <div class="col-md-offset-2 col-md-6 col-sm-10 col-xs-10" style="text-align:center;">
                             <asp:Button runat="server" OnClick="LogIn" Text="Login" CssClass="btn btn-default" />
                         </div>
                     </div>
                 </div>
               
             </section>
-        </div>
 
         <%--<div class="col-md-4">
             <section id="socialLoginForm">

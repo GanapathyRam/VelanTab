@@ -98,6 +98,8 @@ namespace VV.Web.Views
 
                         txtPatrolQty.Enabled = true;
 
+                        txtPatrolQty.Text = "";
+
                         GridViewPopUp.DataSource = dt;
                         GridViewPopUp.DataBind();
 
@@ -157,6 +159,8 @@ namespace VV.Web.Views
 
                 if (ds2 != null && ds2.Tables[0].Rows.Count > 0)
                 {
+                    txtPatrolQty.Text = "";
+
                     txtPatrolQty.Enabled = true;
 
                     //btnGenerate.Enabled = true;
@@ -180,9 +184,11 @@ namespace VV.Web.Views
                 }
                 else
                 {
+                    txtPatrolQty.Text = "";
+
                     txtPatrolQty.Enabled = true;
 
-                    //btnGenerate.Enabled = true;
+                    ViewState["CurrentPatrolQtyCount"] = 0;
 
                     GridViewPopUp.DataSource = dt;
                     GridViewPopUp.DataBind();

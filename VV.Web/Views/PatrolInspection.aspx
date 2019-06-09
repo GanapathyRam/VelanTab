@@ -167,7 +167,7 @@
         <div class="row" style="margin: 20px">
             <div class="sec-grid col-lg-4 col-md-4 col-sm-6 col-xs-6">
                 <asp:Label ID="lblItemNumber" runat="server" Text="Item Number" CssClass="text-right col-lg-4 col-md-5 col-sm-4 col-xs-5"></asp:Label>
-                <asp:TextBox ID="txtItemNumber" runat="server" CssClass="form-control col-md-6 col-sm-8 col-xs-7"></asp:TextBox>
+                <asp:TextBox ID="txtItemNumber" runat="server" Style="width: 160px;" CssClass="form-control col-md-7 col-sm-8 col-xs-7"></asp:TextBox>
             </div>
             <div class="sec-grid col-lg-8 col-md-8 col-sm-8 col-xs-9">
                 <asp:Label ID="lblDescription" runat="server" Text="Description" CssClass="text-right margin-text col-md-2 col-sm-3 col-xs-3"></asp:Label>
@@ -307,7 +307,7 @@
                         </EditItemTemplate>--%>
                     </asp:TemplateField>
 
-                    <asp:TemplateField HeaderText="Image" HeaderStyle-CssClass="visible-xs visible-md visible-lg"
+                    <asp:TemplateField HeaderText="" HeaderStyle-CssClass="visible-xs visible-md visible-lg"
                         ItemStyle-CssClass="visible-xs visible-md visible-lg">
                         <ItemTemplate>
                             <asp:FileUpload ID="FileUpload1" runat="server" />
@@ -342,7 +342,7 @@
                     </asp:TemplateField>--%>
                 </Columns>
             </asp:GridView>
-            <div class="loc-grid-button">
+            <div class="loc-grid-updatebutton">
                 <asp:Button ID="btnUpdate" Visible="false" runat="server" CssClass="btn btn-default" Text="Update" OnClick="btnUpdate_Click" />
                 <asp:Label ID="lblMsg" runat="server"></asp:Label>
             </div>
