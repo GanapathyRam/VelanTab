@@ -56,7 +56,12 @@ namespace VV.Web.Views
 
             int PatrolQtyCount = 0; int ReleaseQtyCount = 0;
 
-            //txtPatrolQty.Enabled = true;
+            lblMessage.Text = "";
+
+            // Empty Row Setting Up Main Grid
+            gridPatrolInspection.DataSource = dt;
+            gridPatrolInspection.DataBind();
+            btnUpdate.Visible = false;
 
             var ProdOrderNo = txtProdOrderNo.Text.Trim();
 
@@ -264,6 +269,12 @@ namespace VV.Web.Views
 
                         btnUpdate.Visible = true;
                     }
+                }
+                else
+                {
+                    lblMessage.Visible = true;
+                    lblMessage.ForeColor = System.Drawing.Color.Red;
+                    lblMessage.Text = "Patrol qty is missing. Please enter the patrol qty or submit the selected serial no to proceed further.";
                 }
             }
         }
@@ -640,6 +651,8 @@ namespace VV.Web.Views
 
         private void Clear()
         {
+            DataTable dt = new DataTable();
+
             txtPatrolNumber.Text = "";
             txtProdOrderNo.Text = "";
             txtPatrolDate.Text = "";
@@ -655,6 +668,12 @@ namespace VV.Web.Views
             ddlInspBy.SelectedIndex = 0;
             ddlShift.SelectedIndex = 0;
             txtRemarks.Text = "";
+
+            gridPatrolInspection.DataSource = dt;
+            gridPatrolInspection.DataBind();
+
+            GridViewPopUp.DataSource = dt;
+            GridViewPopUp.DataBind();
         }
 
         private void LogError(Exception ex, string section)
@@ -736,9 +755,13 @@ namespace VV.Web.Views
                     }
                 }
 
-                GetPatrolDetails(txtPatrolNumber.Text);
+                //GetPatrolDetails(txtPatrolNumber.Text);
 
                 Clear();
+
+                lblMessage.Visible = true;
+                lblMessage.ForeColor = System.Drawing.Color.Green;
+                lblMessage.Text = "Patrol Inspection details added successfully.";
             }
             catch (Exception ex)
             {
