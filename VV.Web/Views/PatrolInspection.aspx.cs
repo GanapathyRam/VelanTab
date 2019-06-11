@@ -768,5 +768,16 @@ namespace VV.Web.Views
                 LogError(ex, "Exception from while inserting patrol main grid details");
             }
         }
+
+        protected void btnEdit_Click(object sender, EventArgs e)
+        {
+            txtPatrolNumber.Visible = true;
+            ddlSubLocation.Enabled = false;
+        }
+
+        protected void txtPatrolNumber_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

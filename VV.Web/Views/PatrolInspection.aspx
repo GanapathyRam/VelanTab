@@ -120,6 +120,7 @@
             <div class="sec-grid col-lg-4 col-md-4 col-sm-6 col-xs-6">
                 <asp:Label ID="lblPatrolNumber" runat="server" Text="Patrol No" CssClass="text-right col-lg-4 col-md-5 form-required col-sm-4 col-xs-5"></asp:Label>
                 <asp:TextBox ID="txtPatrolNumber" runat="server" CssClass="form-control col-md-7 col-sm-8 col-xs-7"></asp:TextBox>
+                <%--<asp:Button ID="btnEdit" OnClick="btnEdit_Click" runat="server" Style="background-color: #c1c1c1;" CssClass="text-right btn btn-default" Text="Edit" />--%>
             </div>
             <div class="sec-grid gen-button col-lg-3 col-md-3 col-sm-6 col-xs-6">
                 <asp:Button ID="btnGenerate" OnClick="btnGenerate_Click" runat="server" Style="background-color: #c1c1c1;" CssClass="text-right btn btn-default" Text="Generate" />
@@ -136,7 +137,7 @@
                             EmptyDataText="No Serial No(s) to display."
                             AllowPaging="true">
                             <Columns>
-                                <asp:TemplateField HeaderStyle-HorizontalAlign="Center" HeaderText="Select" HeaderStyle-Width="30px" HeaderStyle-CssClass="visible-xs visible-md visible-lg" ItemStyle-CssClass="visible-xs visible-md visible-lg">
+                                <asp:TemplateField HeaderStyle-HorizontalAlign="Center" HeaderText="Select" HeaderStyle-Width="30px" HeaderStyle-CssClass="visible-xs visible-sm visible-md visible-lg" ItemStyle-CssClass="visible-xs visible-sm visible-md visible-lg">
                                     <HeaderTemplate>
                                         <input type="checkbox" id="chkAll" name="chkAll" onclick="Check(this)" />
                                     </HeaderTemplate>
@@ -145,7 +146,7 @@
                                     </ItemTemplate>
                                     <ItemStyle Wrap="false" />
                                 </asp:TemplateField>
-                                <asp:TemplateField HeaderStyle-HorizontalAlign="Center" HeaderText="Serial No" HeaderStyle-CssClass="visible-xs visible-md visible-lg" ItemStyle-CssClass="visible-xs visible-md visible-lg">
+                                <asp:TemplateField HeaderStyle-HorizontalAlign="Center" HeaderText="Serial No" HeaderStyle-CssClass="visible-xs visible-md visible-sm visible-lg" ItemStyle-CssClass="visible-xs visible-sm visible-md visible-lg">
                                     <ItemTemplate>
                                         <asp:Label ID="lblCheckListSerial" Text='<%# Bind("SerialNo") %>' runat="server" />
                                     </ItemTemplate>
@@ -249,25 +250,25 @@
                         <ItemStyle Wrap="false" />
                     </asp:TemplateField>--%>
 
-                    <asp:TemplateField HeaderText="SL No" HeaderStyle-Width="50px" HeaderStyle-CssClass="visible-xs visible-md visible-lg" ItemStyle-CssClass="visible-xs visible-md visible-lg">
+                    <asp:TemplateField HeaderText="SL No" HeaderStyle-Width="50px" HeaderStyle-CssClass="visible-xs visible-sm visible-md visible-lg" ItemStyle-CssClass="visible-xs visible-sm visible-md visible-lg">
                         <ItemTemplate>
                             <%#Container.DataItemIndex+1 %>
                         </ItemTemplate>
                     </asp:TemplateField>
 
-                    <asp:TemplateField Visible="false" HeaderStyle-CssClass="visible-xs visible-md visible-lg" ItemStyle-CssClass="visible-xs visible-md visible-lg">
+                    <asp:TemplateField Visible="false" HeaderStyle-CssClass="visible-xs visible-md visible-sm visible-lg" ItemStyle-CssClass="visible-xs visible-sm visible-md visible-lg">
                         <ItemTemplate>
                             <asp:Label ID="lblCheckListSerial" Text='<%# Bind("CheckListSerial") %>' runat="server" />
                         </ItemTemplate>
                     </asp:TemplateField>
 
-                    <asp:TemplateField HeaderText="Check List" HeaderStyle-CssClass="visible-xs visible-md visible-lg" ItemStyle-CssClass="visible-xs visible-md visible-lg">
+                    <asp:TemplateField HeaderText="Check List" HeaderStyle-CssClass="visible-xs visible-md visible-sm visible-lg" ItemStyle-CssClass="visible-xs visible-sm visible-md visible-lg">
                         <ItemTemplate>
                             <asp:Label ID="lblCheckListDescription" Text='<%# Bind("CheckListDescription") %>' runat="server" />
                         </ItemTemplate>
                     </asp:TemplateField>
 
-                    <asp:TemplateField HeaderText="Meets" HeaderStyle-CssClass="visible-xs visible-md visible-lg" ItemStyle-CssClass="visible-xs visible-md visible-lg">
+                    <asp:TemplateField HeaderText="Meets" HeaderStyle-CssClass="visible-xs visible-md visible-sm visible-lg" ItemStyle-CssClass="visible-xs visible-sm visible-md visible-lg">
                         <ItemTemplate>
                             <%-- <asp:DropDownList ID="ddlMeets" runat="server">
                             </asp:DropDownList>--%>
@@ -281,7 +282,7 @@
                         </EditItemTemplate>--%>
                     </asp:TemplateField>
 
-                    <asp:TemplateField HeaderText="Observation" HeaderStyle-CssClass="visible-xs visible-md visible-lg"
+                    <asp:TemplateField HeaderText="Observation" HeaderStyle-CssClass="visible-xs visible-md visible-sm visible-lg"
                         ItemStyle-CssClass="visible-xs visible-md visible-lg" HeaderStyle-Width="100px">
                         <%--<ItemTemplate>
                                         <asp:TextBox ID="txtObservation" Text='<%# Bind("MeetsComments") %>' runat="server"></asp:TextBox>
@@ -295,7 +296,7 @@
                         </EditItemTemplate>--%>
                     </asp:TemplateField>
 
-                    <asp:TemplateField HeaderText="Image" HeaderStyle-CssClass="visible-xs visible-md visible-lg"
+                    <asp:TemplateField HeaderText="Image" HeaderStyle-CssClass="visible-xs visible-md visible-sm visible-lg"
                         ItemStyle-CssClass="visible-xs visible-md visible-lg">
                         <ItemTemplate>
                             <asp:Image ID="Image1" runat="server"
@@ -307,7 +308,7 @@
                         </EditItemTemplate>--%>
                     </asp:TemplateField>
 
-                    <asp:TemplateField HeaderText="" HeaderStyle-CssClass="visible-xs visible-md visible-lg"
+                    <asp:TemplateField HeaderText="" HeaderStyle-CssClass="visible-xs visible-md visible-sm visible-lg"
                         ItemStyle-CssClass="visible-xs visible-md visible-lg">
                         <ItemTemplate>
                             <asp:FileUpload ID="FileUpload1" runat="server" />
