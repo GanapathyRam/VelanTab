@@ -772,6 +772,33 @@ namespace VV
             }
         }
 
+        public DataSet GetPatrolInspectionSerial(string PatrolNumber)
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                this.init();
+
+                SqlCommand cmd = new SqlCommand("select SerialNo from PatrolSerial where PatrolNumber = '"+ PatrolNumber + "'", conn);
+                cmd.CommandType = CommandType.Text;
+
+                SqlDataAdapter da = new SqlDataAdapter();
+                da.SelectCommand = cmd;
+
+                da.Fill(ds);
+
+                conn.Close();
+
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                conn.Close();
+                Logger.Write(this.GetType().ToString() + " : GetPatrolInspectionSerial() : " + " : " + DateTime.Now + " : " + ex.Message.ToString(), Category.General, Priority.Highest);
+                throw ex;
+            }
+        }
+
         public void InsertPatrolInspectionMaster(String PatrolNumber, DateTime PatrolDate, String LocationCode, String SubLocationCode, String ProdOrderNo,
             int PatrolQty, String OperatorCode, String ShiftCode, int EmployeeCode, String Remarks)
         {
@@ -811,6 +838,39 @@ namespace VV
             }
         }
 
+        public void UpdatePatrolInspectionMaster(String PatrolNumber, DateTime PatrolDate,  int PatrolQty, String OperatorCode, String ShiftCode, int EmployeeCode, 
+            String Remarks)
+        {
+            try
+            {
+                this.init();
+
+                SqlCommand cmd = new SqlCommand("[spUpdatePatrolMaster]", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                string UserName = (String)HttpContext.Current.Session["LoggedOnUser"];
+
+                cmd.Parameters.Add(new SqlParameter("@PatrolNumber", PatrolNumber)); // String
+                cmd.Parameters.Add(new SqlParameter("@PatrolDate", PatrolDate));
+
+                cmd.Parameters.Add(new SqlParameter("@PatrolQty", PatrolQty));
+                cmd.Parameters.Add(new SqlParameter("@OperatorCode", OperatorCode));
+
+                cmd.Parameters.Add(new SqlParameter("@ShiftCode", ShiftCode));
+                cmd.Parameters.Add(new SqlParameter("@EmployeeCode", EmployeeCode));
+                cmd.Parameters.Add(new SqlParameter("@Remarks", Remarks));
+
+                cmd.ExecuteNonQuery();
+
+                conn.Close();
+            }
+            catch (Exception ex)
+            {
+                conn.Close();
+                Logger.Write(this.GetType().ToString() + " : UpdatePatrolInspectionMaster() : " + " : " + DateTime.Now + " : " + ex.Message.ToString(), Category.General, Priority.Highest);
+                throw ex;
+            }
+        }
 
         public void InsertPatrolInspectionDetails(String PatrolNumber, String CheckListSerial, String Meets, String MeetsComments,
             String Meets1, String Meets1Comments, String MeetsImage, String PatrolImage)
@@ -849,6 +909,40 @@ namespace VV
             }
         }
 
+        public void UpdatePatrolInspectionDetails(String PatrolNumber, String CheckListSerial, String Meets, String MeetsComments,
+            String Meets1, String Meets1Comments, String MeetsImage, String PatrolImage)
+        {
+            try
+            {
+                this.init();
+
+                SqlCommand cmd = new SqlCommand("[spUpdatePatrolDetails]", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                string UserName = (String)HttpContext.Current.Session["LoggedOnUser"];
+
+                cmd.Parameters.Add(new SqlParameter("@PatrolNumber", PatrolNumber)); // String
+                cmd.Parameters.Add(new SqlParameter("@CheckListSerial", CheckListSerial));
+
+                cmd.Parameters.Add(new SqlParameter("@Meets", Meets));
+                cmd.Parameters.Add(new SqlParameter("@MeetsComments", MeetsComments));
+
+                cmd.Parameters.Add(new SqlParameter("@MeetsImage", MeetsImage));
+                cmd.Parameters.Add(new SqlParameter("@PatrolImage", PatrolImage));
+
+
+                cmd.ExecuteNonQuery();
+
+                conn.Close();
+            }
+            catch (Exception ex)
+            {
+                conn.Close();
+                Logger.Write(this.GetType().ToString() + " : UpdatePatrolInspectionDetails() : " + " : " + DateTime.Now + " : " + ex.Message.ToString(), Category.General, Priority.Highest);
+                throw ex;
+            }
+        }
+
         public void InsertPatrolInspectionSerials(String PatrolNumber, String SerialNo)
         {
             try
@@ -871,6 +965,59 @@ namespace VV
             {
                 conn.Close();
                 Logger.Write(this.GetType().ToString() + " : InsertPatrolInspectionSerials() : " + " : " + DateTime.Now + " : " + ex.Message.ToString(), Category.General, Priority.Highest);
+                throw ex;
+            }
+        }
+
+        public void DeletePatrolInspectionSerials(String PatrolNumber, String SerialNo, int SerialCount, int IsDeleteOrUpdate)
+        {
+            try
+            {
+                this.init();
+
+                SqlCommand cmd = new SqlCommand("[spDeletePatrolSerial]", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                string UserName = (String)HttpContext.Current.Session["LoggedOnUser"];
+
+                cmd.Parameters.Add(new SqlParameter("@PatrolNumber", PatrolNumber)); // String
+                cmd.Parameters.Add(new SqlParameter("@SerialNo", SerialNo));
+                cmd.Parameters.Add(new SqlParameter("@PatrolQty", SerialCount));
+                cmd.Parameters.Add(new SqlParameter("@IsDeleteOrUpdate", IsDeleteOrUpdate));
+
+                cmd.ExecuteNonQuery();
+
+                conn.Close();
+            }
+            catch (Exception ex)
+            {
+                conn.Close();
+                Logger.Write(this.GetType().ToString() + " : DeletePatrolInspectionSerials() : " + " : " + DateTime.Now + " : " + ex.Message.ToString(), Category.General, Priority.Highest);
+                throw ex;
+            }
+        }
+
+        public void DeletePatrolInspection(String PatrolNumber)
+        {
+            try
+            {
+                this.init();
+
+                SqlCommand cmd = new SqlCommand("[spDeletePatrolInspection]", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                string UserName = (String)HttpContext.Current.Session["LoggedOnUser"];
+
+                cmd.Parameters.Add(new SqlParameter("@PatrolNumber", PatrolNumber)); // String
+
+                cmd.ExecuteNonQuery();
+
+                conn.Close();
+            }
+            catch (Exception ex)
+            {
+                conn.Close();
+                Logger.Write(this.GetType().ToString() + " : DeletePatrolInspection() : " + " : " + DateTime.Now + " : " + ex.Message.ToString(), Category.General, Priority.Highest);
                 throw ex;
             }
         }
@@ -924,6 +1071,36 @@ namespace VV
             {
                 conn.Close();
                 Logger.Write(this.GetType().ToString() + " : GetCheckListDetailsForPatrol : " + " : " + DateTime.Now + " : " + ex.Message.ToString(), Category.General, Priority.Highest);
+                throw ex;
+            }
+        }
+
+
+        public DataSet GetPatrolMaster(String PatrolNumber)
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                this.init();
+
+                SqlCommand cmd = new SqlCommand("[spGetPatrolMaster]", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.Add(new SqlParameter("@PatrolNumber", PatrolNumber));
+
+                SqlDataAdapter da = new SqlDataAdapter();
+                da.SelectCommand = cmd;
+
+                da.Fill(ds);
+
+                conn.Close();
+
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                conn.Close();
+                Logger.Write(this.GetType().ToString() + " : GetPatrolMaster() : " + " : " + DateTime.Now + " : " + ex.Message.ToString(), Category.General, Priority.Highest);
                 throw ex;
             }
         }

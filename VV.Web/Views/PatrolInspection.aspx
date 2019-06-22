@@ -119,11 +119,12 @@
 
             <div class="sec-grid col-lg-4 col-md-4 col-sm-6 col-xs-6">
                 <asp:Label ID="lblPatrolNumber" runat="server" Text="Patrol No" CssClass="text-right col-lg-4 col-md-5 form-required col-sm-4 col-xs-5"></asp:Label>
-                <asp:TextBox ID="txtPatrolNumber" runat="server" CssClass="form-control col-md-7 col-sm-8 col-xs-7"></asp:TextBox>
+                <asp:TextBox ID="txtPatrolNumber" runat="server" OnTextChanged="txtPatrolNumber_TextChanged" AutoPostBack="true" CssClass="form-control col-md-7 col-sm-8 col-xs-7"></asp:TextBox>
                 <%--<asp:Button ID="btnEdit" OnClick="btnEdit_Click" runat="server" Style="background-color: #c1c1c1;" CssClass="text-right btn btn-default" Text="Edit" />--%>
             </div>
             <div class="sec-grid gen-button col-lg-3 col-md-3 col-sm-6 col-xs-6">
                 <asp:Button ID="btnGenerate" OnClick="btnGenerate_Click" runat="server" Style="background-color: #c1c1c1;" CssClass="text-right btn btn-default" Text="Generate" />
+                <asp:Button ID="btnDelete" OnClick="btnDelete_Click" runat="server" Style="background-color: #c1c1c1;" CssClass="text-right btn btn-default" Text="Remove" />
             </div>
             <%-- <asp:Button ID="btnShowPopup" runat="server" Text="Show Popup" />
             <div id="dialog" style="display: none">
@@ -155,6 +156,7 @@
                         </asp:GridView>
                         <div class="loc-grid-button">
                             <asp:Button ID="btnSubmit" Text="Submit" runat="server" CssClass="btn btn-default" OnClick="btnSubmit_Click" />
+                            <asp:Button ID="btnPopDelete" Text="Delete" Visible="false" runat="server" CssClass="btn btn-default" OnClick="btnPopDelete_Click" />
                         </div>
                     </div>
                 </ContentTemplate>
@@ -273,6 +275,7 @@
                             <%-- <asp:DropDownList ID="ddlMeets" runat="server">
                             </asp:DropDownList>--%>
                             <%--<asp:Label ID="lblMeets" runat="server" Text='<%# Eval("MeetName")%>'></asp:Label>--%>
+                            <%--SelectedValue='<%# Bind("Meets")%>'--%>
                             <asp:DropDownList ID="ddlMeets" CssClass="input-box col-md-6 col-sm-6 col-xs-8" Style="padding-right: 0;" runat="server">
                             </asp:DropDownList>
                         </ItemTemplate>

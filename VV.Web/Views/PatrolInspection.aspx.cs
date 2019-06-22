@@ -42,7 +42,7 @@ namespace VV.Web.Views
 
                 btnSubmit.Visible = false;
 
-                txtPatrolNumber.Enabled = false;
+                //txtPatrolNumber.Enabled = false;
 
                 //GetPatrolDetails("P1902100001");
             }
@@ -69,6 +69,28 @@ namespace VV.Web.Views
             {
                 GridViewPopUp.DataSource = dt;
                 GridViewPopUp.DataBind();
+
+                return;
+            }
+
+            if (ddlLocation.SelectedIndex != 0 && ddlSubLocation.SelectedIndex != 0)
+            {
+                PatrolNumber = GetPatrolNumber(ddlLocation.SelectedValue, ddlSubLocation.SelectedValue);
+
+                if (!string.IsNullOrEmpty(PatrolNumber))
+                {
+                    lblMessage.Text = "";
+                    txtPatrolNumber.Text = PatrolNumber;
+                }
+            }
+            else
+            {
+                lblMessage.Visible = true;
+                lblMessage.ForeColor = System.Drawing.Color.Red;
+                lblMessage.Text = "Please select the value from location and sub location dropdown.";
+
+                txtPatrolNumber.Text = "";
+                txtProdOrderNo.Text = "";
 
                 return;
             }
@@ -153,6 +175,9 @@ namespace VV.Web.Views
                     txtCustomer.Text = "";
                     txtSaleOrder.Text = "";
                 }
+
+                txtPatrolNumber.Enabled = false;
+                btnDelete.Enabled = false;
             }
 
             // Prod Order Not Starting From '4'
@@ -217,27 +242,9 @@ namespace VV.Web.Views
                     txtCustomer.Text = "";
                     txtSaleOrder.Text = "";
                 }
-            }
 
-            if (ddlLocation.SelectedIndex != 0 && ddlSubLocation.SelectedIndex != 0)
-            {
-                PatrolNumber = GetPatrolNumber(ddlLocation.SelectedValue, ddlSubLocation.SelectedValue);
-
-                if (!string.IsNullOrEmpty(PatrolNumber))
-                {
-                    lblMessage.Text = "";
-                    txtPatrolNumber.Text = PatrolNumber;
-                }
-            }
-            else
-            {
-                lblMessage.Visible = true;
-                lblMessage.ForeColor = System.Drawing.Color.Red;
-                lblMessage.Text = "Please select the value from location and sub location dropdown.";
-
-                txtPatrolNumber.Text = "";
-
-                return;
+                txtPatrolNumber.Enabled = false;
+                btnDelete.Enabled = false;
             }
         }
 
@@ -283,6 +290,7 @@ namespace VV.Web.Views
         {
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
+                DataRowView drv = e.Row.DataItem as DataRowView;
                 DataSet ds = _DBObj.GetMeetMaster();
 
                 if (ds != null && ds.Tables[0].Rows.Count > 0)
@@ -296,6 +304,7 @@ namespace VV.Web.Views
                     DropDownList1.DataBind();
 
                     DropDownList1.Items.Insert(0, new ListItem("--Select Meets--", "0"));
+                    //DropDownList1.SelectedValue = drv["Meets"].ToString();
                 }
             }
 
@@ -674,6 +683,14 @@ namespace VV.Web.Views
 
             GridViewPopUp.DataSource = dt;
             GridViewPopUp.DataBind();
+
+            ddlLocation.Enabled = true;
+            ddlSubLocation.Enabled = true;
+            txtProdOrderNo.Enabled = true;
+            txtItemNumber.Enabled = true;
+            txtDescription.Enabled = true;
+            txtCustomer.Enabled = true;
+            txtSaleOrder.Enabled = true;
         }
 
         private void LogError(Exception ex, string section)
@@ -698,70 +715,119 @@ namespace VV.Web.Views
 
         #endregion
 
-        protected void btnUpload_Click1(object sender, EventArgs e)
-        {
-
-        }
-
         protected void btnUpdate_Click(object sender, EventArgs e)
         {
+            string PatrolNumber = string.Empty;
+
             try
             {
-                foreach (GridViewRow row in this.gridPatrolInspection.Rows)
+                PatrolNumber = GetPatrolNumber(ddlLocation.SelectedValue, ddlSubLocation.SelectedValue);
+
+                if (string.IsNullOrWhiteSpace(PatrolNumber))
                 {
-                    string lblCheckListSerial = ((Label)row.FindControl("lblCheckListSerial")).Text.ToString();
-                    string lblCheckListDescription = ((Label)row.FindControl("lblCheckListDescription")).Text.ToString();
-                    DropDownList ddlMeets = ((DropDownList)row.FindControl("ddlMeets"));
-                    string txtObservation = ((TextBox)row.FindControl("txtObservation")).Text.ToString();
-
-                    FileUpload FileUpload = (FileUpload)row.FindControl("FileUpload1");
-
-                    string path = "";
-
-                    path += FileUpload.FileName;
-                    //save image in folder  
-
-                    if (!string.IsNullOrEmpty(path))
+                    foreach (GridViewRow row in this.gridPatrolInspection.Rows)
                     {
-                        FileUpload.SaveAs(MapPath("~/FileUpload/" + path));
-                    }
+                        string lblCheckListSerial = ((Label)row.FindControl("lblCheckListSerial")).Text.ToString();
+                        string lblCheckListDescription = ((Label)row.FindControl("lblCheckListDescription")).Text.ToString();
+                        DropDownList ddlMeets = ((DropDownList)row.FindControl("ddlMeets"));
+                        string txtObservation = ((TextBox)row.FindControl("txtObservation")).Text.ToString();
 
-                    if (!string.IsNullOrEmpty(txtPatrolNumber.Text) && !string.IsNullOrEmpty(txtPatrolQty.Text))
-                    {
-                        // Patrol Details
-                        _DBObj.InsertPatrolInspectionDetails(txtPatrolNumber.Text, lblCheckListSerial.ToString(), ddlMeets.SelectedValue, txtObservation.ToString(),
-                            "", "", FileUpload.FileName, path);
-                    }
-                }
+                        FileUpload FileUpload = (FileUpload)row.FindControl("FileUpload1");
 
-                // Patrol Master
-                _DBObj.InsertPatrolInspectionMaster(txtPatrolNumber.Text, Convert.ToDateTime(txtPatrolDate.Text), ddlLocation.SelectedValue, ddlSubLocation.SelectedValue,
-                    txtProdOrderNo.Text, Convert.ToInt32(txtPatrolQty.Text), ddlOperator.SelectedValue, ddlShift.SelectedValue, Convert.ToInt32(ddlInspBy.SelectedValue), txtRemarks.Text);
+                        string path = "";
 
-                // Patrol Serial
+                        path += FileUpload.FileName;
+                        //save image in folder  
 
-                var serialNoList = ViewState["selectedSerialNoList"];
-
-                if (serialNoList != null)
-                {
-                    var split = serialNoList.ToString().Split(',');
-
-                    for (int i = 0; i < split.Length; i++)
-                    {
-                        if (split[i].Trim() != string.Empty)
+                        if (!string.IsNullOrEmpty(path))
                         {
-                            _DBObj.InsertPatrolInspectionSerials(txtPatrolNumber.Text, split[i].Trim());
+                            FileUpload.SaveAs(MapPath("~/FileUpload/" + path));
+                        }
+
+                        if (!string.IsNullOrEmpty(txtPatrolNumber.Text) && !string.IsNullOrEmpty(txtPatrolQty.Text))
+                        {
+                            // Patrol Details
+                            _DBObj.InsertPatrolInspectionDetails(txtPatrolNumber.Text, lblCheckListSerial.ToString(), ddlMeets.SelectedValue, txtObservation.ToString(),
+                                "", "", FileUpload.FileName, path);
                         }
                     }
+
+                    var deletedSerialCount = Convert.ToString(ViewState["DeletedSerialNoList"]) == "" ? Convert.ToString(txtPatrolQty.Text) : Convert.ToString(ViewState["DeletedSerialNoList"]);
+
+                    // Patrol Master
+                    _DBObj.InsertPatrolInspectionMaster(txtPatrolNumber.Text, Convert.ToDateTime(txtPatrolDate.Text), ddlLocation.SelectedValue, ddlSubLocation.SelectedValue,
+                        txtProdOrderNo.Text, Convert.ToInt32(deletedSerialCount), ddlOperator.SelectedValue, ddlShift.SelectedValue, Convert.ToInt32(ddlInspBy.SelectedValue), txtRemarks.Text);
+
+                    // Patrol Serial
+
+                    var serialNoList = ViewState["selectedSerialNoList"];
+
+                    if (serialNoList != null)
+                    {
+                        var split = serialNoList.ToString().Split(',');
+
+                        for (int i = 0; i < split.Length; i++)
+                        {
+                            if (split[i].Trim() != string.Empty)
+                            {
+                                _DBObj.InsertPatrolInspectionSerials(txtPatrolNumber.Text, split[i].Trim());
+                            }
+                        }
+                    }
+
+                    //GetPatrolDetails(txtPatrolNumber.Text);
+
+                    Clear();
+
+                    lblMessage.Visible = true;
+                    lblMessage.ForeColor = System.Drawing.Color.Green;
+                    lblMessage.Text = "Patrol Inspection details added successfully.";
+
+                    txtPatrolNumber.Enabled = true;
                 }
+                else // Update Patrol Inspection
+                {
+                    foreach (GridViewRow row in this.gridPatrolInspection.Rows)
+                    {
+                        string lblCheckListSerial = ((Label)row.FindControl("lblCheckListSerial")).Text.ToString();
+                        string lblCheckListDescription = ((Label)row.FindControl("lblCheckListDescription")).Text.ToString();
+                        DropDownList ddlMeets = ((DropDownList)row.FindControl("ddlMeets"));
+                        string txtObservation = ((TextBox)row.FindControl("txtObservation")).Text.ToString();
 
-                //GetPatrolDetails(txtPatrolNumber.Text);
+                        FileUpload FileUpload = (FileUpload)row.FindControl("FileUpload1");
 
-                Clear();
+                        string path = "";
 
-                lblMessage.Visible = true;
-                lblMessage.ForeColor = System.Drawing.Color.Green;
-                lblMessage.Text = "Patrol Inspection details added successfully.";
+                        path += FileUpload.FileName;
+                        //save image in folder  
+
+                        if (!string.IsNullOrEmpty(path))
+                        {
+                            FileUpload.SaveAs(MapPath("~/FileUpload/" + path));
+                        }
+
+                        if (!string.IsNullOrEmpty(txtPatrolNumber.Text) && !string.IsNullOrEmpty(txtPatrolQty.Text))
+                        {
+                            // Patrol Details
+                            _DBObj.UpdatePatrolInspectionDetails(txtPatrolNumber.Text, lblCheckListSerial.ToString(), ddlMeets.SelectedValue, txtObservation.ToString(),
+                                "", "", FileUpload.FileName, path);
+                        }
+                    }
+
+                    var deletedSerialCount = Convert.ToString(ViewState["DeletedSerialNoList"]) == "" ? Convert.ToString(txtPatrolQty.Text) : Convert.ToString(ViewState["DeletedSerialNoList"]);
+
+                    // Patrol Master
+                    _DBObj.UpdatePatrolInspectionMaster(txtPatrolNumber.Text, Convert.ToDateTime(txtPatrolDate.Text), 
+                        Convert.ToInt32(deletedSerialCount), ddlOperator.SelectedValue, ddlShift.SelectedValue, Convert.ToInt32(ddlInspBy.SelectedValue), txtRemarks.Text);
+
+                    Clear();
+
+                    lblMessage.Visible = true;
+                    lblMessage.ForeColor = System.Drawing.Color.Green;
+                    lblMessage.Text = "Patrol Inspection details updated successfully.";
+
+                    txtPatrolNumber.Enabled = true;
+                }
             }
             catch (Exception ex)
             {
@@ -777,7 +843,201 @@ namespace VV.Web.Views
 
         protected void txtPatrolNumber_TextChanged(object sender, EventArgs e)
         {
+            try
+            {
+                // Get Patrol Master
+                DataSet ds = _DBObj.GetPatrolMaster(txtPatrolNumber.Text.Trim());
 
+                if (ds != null && ds.Tables[0].Rows.Count > 0)
+                {
+                    lblMessage.Visible = false;
+
+                    DateTime patrolDate = Convert.ToDateTime(ds.Tables[0].Rows[0]["PatrolDate"]);
+                    txtPatrolDate.Text = Convert.ToString(patrolDate.ToString("dd/MM/yyyy"));
+                    ddlLocation.SelectedValue = Convert.ToString(ds.Tables[0].Rows[0]["LocationCode"]);
+                    ddlSubLocation.SelectedValue = Convert.ToString(ds.Tables[0].Rows[0]["SubLocationCode"]);
+                    txtProdOrderNo.Text = Convert.ToString(ds.Tables[0].Rows[0]["ProdOrderNo"]);
+                    txtPatrolQty.Text = Convert.ToString(ds.Tables[0].Rows[0]["PatrolQty"]);
+
+                    ddlOperator.SelectedIndex = Convert.ToInt32(ds.Tables[0].Rows[0]["OperatorCode"]);
+                    ddlShift.SelectedValue = Convert.ToString(ds.Tables[0].Rows[0]["ShiftCode"]);
+                    ddlInspBy.SelectedValue = Convert.ToString(ds.Tables[0].Rows[0]["EmployeeCode"]);
+                    txtRemarks.Text = Convert.ToString(ds.Tables[0].Rows[0]["Remarks"]);
+
+                    ds = _DBObj.GetMISOrderStatusForPatrol(txtProdOrderNo.Text.Trim());
+
+                    if (ds != null && ds.Tables[0].Rows.Count > 0)
+                    {
+                        txtItemNumber.Text = Convert.ToString(ds.Tables[0].Rows[0]["Item"]);
+                        txtDescription.Text = Convert.ToString(ds.Tables[0].Rows[0]["Description"]);
+                        txtCustomer.Text = Convert.ToString(ds.Tables[0].Rows[0]["CustomerName"]);
+                        txtSaleOrder.Text = Convert.ToString(ds.Tables[0].Rows[0]["OrderNo"]) + "-" + Convert.ToString(ds.Tables[0].Rows[0]["Pos"]);
+                    }
+
+                    // Get Serial No Grid View Details
+                    DataSet ds2 = _DBObj.GetPatrolInspectionSerial(txtPatrolNumber.Text.Trim());
+                    GridViewPopUp.DataSource = ds2;
+                    GridViewPopUp.DataBind();
+
+                    // Get Patrol Details
+                    GetPatrolDetails(txtPatrolNumber.Text.Trim());
+
+                    ddlLocation.Enabled = false;
+                    ddlSubLocation.Enabled = false;
+                    txtProdOrderNo.Enabled = false;
+                    txtItemNumber.Enabled = false;
+                    txtDescription.Enabled = false;
+                    txtCustomer.Enabled = false;
+                    txtSaleOrder.Enabled = false;
+                    btnGenerate.Enabled = false;
+                    btnDelete.Enabled = true;
+                    btnPopDelete.Visible = true;
+                    btnUpdate.Visible = true;
+                    txtPatrolQty.Enabled = false;
+                    btnSubmit.Visible = false;
+                }
+                else
+                {
+                    lblMessage.Visible = true;
+                    lblMessage.ForeColor = System.Drawing.Color.Red;
+                    lblMessage.Text = "Entered patrol number does not exist in the system, Please enter valid one or generate new one.";
+
+                    return;
+                }
+            }
+            catch (Exception ex)
+            {
+                LogError(ex, "Exception from fetching patrol master details.");
+            }
+        }
+
+        protected void btnDelete_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Get Patrol Master
+                DataSet ds = _DBObj.GetPatrolMaster(txtPatrolNumber.Text.Trim());
+
+                if (ds != null && ds.Tables[0].Rows.Count > 0)
+                {
+                    _DBObj.DeletePatrolInspection(txtPatrolNumber.Text.Trim());
+
+                    lblMessage.Visible = true;
+                    lblMessage.ForeColor = System.Drawing.Color.Green;
+                    lblMessage.Text = "Entered patrol number has been removed successfully from the system.";
+
+                    Clear();
+                }
+                else
+                {
+                    lblMessage.Visible = true;
+                    lblMessage.ForeColor = System.Drawing.Color.Red;
+                    lblMessage.Text = "Entered patrol number does not exist in the system, Please enter valid one or generate new one.";
+
+                    return;
+                }
+            }
+            catch (Exception ex)
+            {
+                LogError(ex, "Exception from deleting patrol inspection  details.");
+            }
+        }
+
+        protected void btnPopDelete_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+                int Count = 0;
+
+                foreach (GridViewRow row in GridViewPopUp.Rows)
+                {
+                    if (row.RowType == DataControlRowType.DataRow)
+                    {
+                        bool isChecked = ((CheckBox)row.FindControl("chkSelect")).Checked;
+
+                        if (isChecked)
+                        {
+                            string serialNo = (row.Cells[0].FindControl("lblCheckListSerial") as Label).Text;
+
+                            selectedSerialNoList = selectedSerialNoList + serialNo + ",";
+
+                            Count = Count + 1;
+                        }
+                    }
+                }
+
+                var updatedCount = Convert.ToUInt32(GridViewPopUp.Rows.Count - Count);
+
+                ViewState["selectedSerialNoList"] = selectedSerialNoList.ToString();
+
+                if (!string.IsNullOrEmpty(Convert.ToString(ViewState["selectedSerialNoList"])) && updatedCount >= 0)
+                {
+                    ViewState["selectedSerialNoCount"] = Convert.ToString(updatedCount);
+
+                    // Patrol Serial
+                    if (selectedSerialNoList != null)
+                    {
+                        var split = selectedSerialNoList.ToString().Split(',');
+
+                        for (int i = 0; i < split.Length; i++)
+                        {
+                            if (split[i].Trim() != string.Empty)
+                            {
+                                _DBObj.DeletePatrolInspectionSerials(txtPatrolNumber.Text, split[i].Trim(), 0, 0);
+                            }
+                        }
+
+                        // Updating the Patrol Qty Count From Patrol Inspection Master
+                        _DBObj.DeletePatrolInspectionSerials(txtPatrolNumber.Text, "", Convert.ToInt32(updatedCount), 1);
+
+                        // Get Serial No Grid View Details
+                        DataSet ds2 = _DBObj.GetPatrolInspectionSerial(txtPatrolNumber.Text.Trim());
+                        GridViewPopUp.DataSource = ds2;
+                        GridViewPopUp.DataBind();
+
+                        btnUpdate.Visible = true;
+
+                        ViewState["DeletedSerialNoList"] = Convert.ToString(updatedCount);
+
+                        //lblMessage.Visible = true;
+                        //lblMessage.ForeColor = System.Drawing.Color.Green;
+                        //lblMessage.Text = "Selected serial no has been removed successfully.";
+                    }
+                }
+                else
+                {
+                    lblMessage.Visible = true;
+                    lblMessage.ForeColor = System.Drawing.Color.Red;
+                    lblMessage.Text = "Please select serial no to be removed from the system.";
+
+                    return;
+                }
+
+                // Get Patrol Master
+                //DataSet ds = _DBObj.GetPatrolMaster(txtPatrolNumber.Text.Trim());
+
+                //if (ds != null && ds.Tables[0].Rows.Count > 0)
+                //{
+                //    _DBObj.DeletePatrolInspectionSerials(txtPatrolNumber.Text.Trim());
+
+                //    lblMessage.Visible = true;
+                //    lblMessage.ForeColor = System.Drawing.Color.Green;
+                //    lblMessage.Text = "Selected serial no has been removed successfully.";
+                //}
+                //else
+                //{
+                //    lblMessage.Visible = true;
+                //    lblMessage.ForeColor = System.Drawing.Color.Red;
+                //    lblMessage.Text = "Select serial no to be removed from the system.";
+
+                //    return;
+                //}
+            }
+            catch (Exception ex)
+            {
+                LogError(ex, "Exception from deleting patrol inspection  details.");
+            }
         }
     }
 }
