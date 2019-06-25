@@ -212,6 +212,7 @@
     <Content Include="Site.Master" />
     <Content Include="ViewSwitcher.ascx" />
     <Content Include="Views\BulkHeatNoUpdate.aspx" />
+    <Content Include="Views\FindPatrolNumber.aspx" />
     <Content Include="Views\ICSOrders.aspx" />
     <Content Include="Views\NonICSOrders.aspx" />
     <Content Include="Views\PatrolInspection.aspx" />
@@ -274,6 +275,13 @@
     </Compile>
     <Compile Include="Views\BulkHeatNoUpdate.aspx.designer.cs">
       <DependentUpon>BulkHeatNoUpdate.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\FindPatrolNumber.aspx.cs">
+      <DependentUpon>FindPatrolNumber.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Views\FindPatrolNumber.aspx.designer.cs">
+      <DependentUpon>FindPatrolNumber.aspx</DependentUpon>
     </Compile>
     <Compile Include="Views\ICSOrders.aspx.cs">
       <DependentUpon>ICSOrders.aspx</DependentUpon>

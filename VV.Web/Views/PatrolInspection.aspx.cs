@@ -87,7 +87,7 @@ namespace VV.Web.Views
             {
                 lblMessage.Visible = true;
                 lblMessage.ForeColor = System.Drawing.Color.Red;
-                lblMessage.Text = "Please select the value from location and sub location dropdown.";
+                lblMessage.Text = "Invalid Location and Sub Location";
 
                 txtPatrolNumber.Text = "";
                 txtProdOrderNo.Text = "";
@@ -281,7 +281,7 @@ namespace VV.Web.Views
                 {
                     lblMessage.Visible = true;
                     lblMessage.ForeColor = System.Drawing.Color.Red;
-                    lblMessage.Text = "Patrol qty is missing. Please enter the patrol qty or submit the selected serial no to proceed further.";
+                    lblMessage.Text = "Patrol qty is missing";
                 }
             }
         }
@@ -296,6 +296,7 @@ namespace VV.Web.Views
                 if (ds != null && ds.Tables[0].Rows.Count > 0)
                 {
                     DropDownList DropDownList1 = (e.Row.FindControl("ddlMeets") as DropDownList);
+                    Label lblMeetName = (e.Row.FindControl("lblMeets") as Label);
 
                     DropDownList1.DataSource = ds.Tables[0];
 
@@ -304,6 +305,12 @@ namespace VV.Web.Views
                     DropDownList1.DataBind();
 
                     DropDownList1.Items.Insert(0, new ListItem("--Select Meets--", "0"));
+
+                    if (!string.IsNullOrEmpty(lblMeetName.Text))
+                    {
+                        DropDownList1.SelectedValue = (e.Row.FindControl("lblMeets") as Label).Text;
+                        DropDownList1.Items.FindByText((e.Row.FindControl("lblMeets") as Label).Text).Selected = true;
+                    }
                     //DropDownList1.SelectedValue = drv["Meets"].ToString();
                 }
             }
@@ -425,7 +432,8 @@ namespace VV.Web.Views
                             {
                                 // Patrol Master
                                 _DBObj.InsertPatrolInspectionMaster(txtPatrolNumber.Text, Convert.ToDateTime(txtPatrolDate.Text), ddlLocation.SelectedValue, ddlSubLocation.SelectedValue,
-                                    txtProdOrderNo.Text, Convert.ToInt32(txtPatrolQty.Text), ddlOperator.SelectedValue, ddlShift.SelectedValue, Convert.ToInt32(ddlInspBy.SelectedValue), txtRemarks.Text);
+                                    txtProdOrderNo.Text, Convert.ToInt32(txtPatrolQty.Text), ddlOperator.SelectedValue, ddlShift.SelectedValue, Convert.ToInt32(ddlInspBy.SelectedValue), 
+                                    txtRemarks.Text, System.DateTime.UtcNow);
 
                                 // Patrol Details
                                 _DBObj.InsertPatrolInspectionDetails(txtPatrolNumber.Text, lblCheckListSerial.ToString(), ddlMeets.SelectedValue, txtObservation.ToString(),
@@ -549,17 +557,17 @@ namespace VV.Web.Views
 
                 if (!savedYear.Equals(currentYear))
                 {
-                    currentYear = Convert.ToString("P" + currentYear + locationCode + "1000" + subLocationCode);
+                    currentYear = Convert.ToString("P" + currentYear + locationCode + subLocationCode + "1");
                 }
                 else
                 {
-                    var workOrderInc = Int32.Parse(model.ToString().Substring(5, 4)) + 1;
-                    currentYear = Convert.ToString("P" + currentYear + locationCode + workOrderInc + subLocationCode);
+                    var workOrderInc = Int32.Parse(model.ToString().Substring(7)) + 1;
+                    currentYear = Convert.ToString("P" + currentYear + locationCode + subLocationCode + workOrderInc);
                 }
             }
             else
             {
-                currentYear = Convert.ToString("P" + currentYear + locationCode + "1000" + subLocationCode);
+                currentYear = Convert.ToString("P" + currentYear + locationCode + subLocationCode + "1");
             }
 
             return currentYear;
@@ -717,13 +725,13 @@ namespace VV.Web.Views
 
         protected void btnUpdate_Click(object sender, EventArgs e)
         {
-            string PatrolNumber = string.Empty;
+            bool IsPatrolNumberExist = false;
 
             try
             {
-                PatrolNumber = GetPatrolNumber(ddlLocation.SelectedValue, ddlSubLocation.SelectedValue);
+                IsPatrolNumberExist = _DBObj.IsPatrolNumberExist(txtPatrolNumber.Text.Trim());
 
-                if (string.IsNullOrWhiteSpace(PatrolNumber))
+                if (!IsPatrolNumberExist)
                 {
                     foreach (GridViewRow row in this.gridPatrolInspection.Rows)
                     {
@@ -731,6 +739,8 @@ namespace VV.Web.Views
                         string lblCheckListDescription = ((Label)row.FindControl("lblCheckListDescription")).Text.ToString();
                         DropDownList ddlMeets = ((DropDownList)row.FindControl("ddlMeets"));
                         string txtObservation = ((TextBox)row.FindControl("txtObservation")).Text.ToString();
+
+                        //string lblMeetName = ((Label)row.FindControl("lblMeets")).Text.ToString();
 
                         FileUpload FileUpload = (FileUpload)row.FindControl("FileUpload1");
 
@@ -756,7 +766,8 @@ namespace VV.Web.Views
 
                     // Patrol Master
                     _DBObj.InsertPatrolInspectionMaster(txtPatrolNumber.Text, Convert.ToDateTime(txtPatrolDate.Text), ddlLocation.SelectedValue, ddlSubLocation.SelectedValue,
-                        txtProdOrderNo.Text, Convert.ToInt32(deletedSerialCount), ddlOperator.SelectedValue, ddlShift.SelectedValue, Convert.ToInt32(ddlInspBy.SelectedValue), txtRemarks.Text);
+                        txtProdOrderNo.Text, Convert.ToInt32(deletedSerialCount), ddlOperator.SelectedValue, ddlShift.SelectedValue, Convert.ToInt32(ddlInspBy.SelectedValue), txtRemarks.Text,
+                        System.DateTime.UtcNow);
 
                     // Patrol Serial
 
@@ -781,7 +792,7 @@ namespace VV.Web.Views
 
                     lblMessage.Visible = true;
                     lblMessage.ForeColor = System.Drawing.Color.Green;
-                    lblMessage.Text = "Patrol Inspection details added successfully.";
+                    lblMessage.Text = "Patrol Inspection added successfully.";
 
                     txtPatrolNumber.Enabled = true;
                 }
@@ -818,13 +829,13 @@ namespace VV.Web.Views
 
                     // Patrol Master
                     _DBObj.UpdatePatrolInspectionMaster(txtPatrolNumber.Text, Convert.ToDateTime(txtPatrolDate.Text), 
-                        Convert.ToInt32(deletedSerialCount), ddlOperator.SelectedValue, ddlShift.SelectedValue, Convert.ToInt32(ddlInspBy.SelectedValue), txtRemarks.Text);
+                        Convert.ToInt32(deletedSerialCount), ddlOperator.SelectedValue, ddlShift.SelectedValue, Convert.ToInt32(ddlInspBy.SelectedValue), txtRemarks.Text, System.DateTime.UtcNow);
 
                     Clear();
 
                     lblMessage.Visible = true;
                     lblMessage.ForeColor = System.Drawing.Color.Green;
-                    lblMessage.Text = "Patrol Inspection details updated successfully.";
+                    lblMessage.Text = "Patrol Inspection updated successfully.";
 
                     txtPatrolNumber.Enabled = true;
                 }
@@ -900,7 +911,7 @@ namespace VV.Web.Views
                 {
                     lblMessage.Visible = true;
                     lblMessage.ForeColor = System.Drawing.Color.Red;
-                    lblMessage.Text = "Entered patrol number does not exist in the system, Please enter valid one or generate new one.";
+                    lblMessage.Text = "Invalid Patrol Number";
 
                     return;
                 }
@@ -924,7 +935,7 @@ namespace VV.Web.Views
 
                     lblMessage.Visible = true;
                     lblMessage.ForeColor = System.Drawing.Color.Green;
-                    lblMessage.Text = "Entered patrol number has been removed successfully from the system.";
+                    lblMessage.Text = "Patrol deleted successfully.";
 
                     Clear();
                 }
@@ -932,7 +943,7 @@ namespace VV.Web.Views
                 {
                     lblMessage.Visible = true;
                     lblMessage.ForeColor = System.Drawing.Color.Red;
-                    lblMessage.Text = "Entered patrol number does not exist in the system, Please enter valid one or generate new one.";
+                    lblMessage.Text = "Invalid Patrol number.";
 
                     return;
                 }
@@ -1009,7 +1020,7 @@ namespace VV.Web.Views
                 {
                     lblMessage.Visible = true;
                     lblMessage.ForeColor = System.Drawing.Color.Red;
-                    lblMessage.Text = "Please select serial no to be removed from the system.";
+                    lblMessage.Text = "Select Serial No to delete";
 
                     return;
                 }

@@ -454,6 +454,46 @@ namespace VV
             }
         }
 
+        public bool IsPatrolNumberExist(string PatrolNumber)
+        {
+            DataSet ds = new DataSet();
+            var patrolNumber = string.Empty;
+            bool isExist = false;
+
+            try
+            {
+                this.init();
+
+                SqlCommand cmd = new SqlCommand("select PatrolNumber from PatrolMaster where PatrolNumber = '"+ PatrolNumber + "'", conn);
+                cmd.CommandTimeout = 1000;
+                cmd.CommandType = CommandType.Text;
+
+                SqlDataAdapter da = new SqlDataAdapter();
+                da.SelectCommand = cmd;
+
+                da.Fill(ds);
+                conn.Close();
+
+                if (ds.Tables[0].Rows.Count > 0)
+                {
+                    patrolNumber = Convert.ToString(ds.Tables[0].Rows[0]["PatrolNumber"].ToString());
+
+                    if (!string.IsNullOrEmpty(patrolNumber))
+                    {
+                        isExist = true;
+                    }
+                }
+
+                return isExist;
+            }
+            catch (Exception ex)
+            {
+                conn.Close();
+                Logger.Write(this.GetType().ToString() + " : GetPatrolNumber : " + " : " + DateTime.Now + " : " + ex.Message.ToString(), Category.General, Priority.Highest);
+                throw ex;
+            }
+        }
+
         public DataSet GetMeetMaster()
         {
             DataSet ds = new DataSet();
@@ -800,7 +840,7 @@ namespace VV
         }
 
         public void InsertPatrolInspectionMaster(String PatrolNumber, DateTime PatrolDate, String LocationCode, String SubLocationCode, String ProdOrderNo,
-            int PatrolQty, String OperatorCode, String ShiftCode, int EmployeeCode, String Remarks)
+            int PatrolQty, String OperatorCode, String ShiftCode, int EmployeeCode, String Remarks, DateTime CreatedDateTime)
         {
             try
             {
@@ -825,6 +865,8 @@ namespace VV
                 cmd.Parameters.Add(new SqlParameter("@EmployeeCode", EmployeeCode));
                 cmd.Parameters.Add(new SqlParameter("@Remarks", Remarks));
 
+                cmd.Parameters.Add(new SqlParameter("@CreatedDateTime", CreatedDateTime));
+
 
                 cmd.ExecuteNonQuery();
 
@@ -839,7 +881,7 @@ namespace VV
         }
 
         public void UpdatePatrolInspectionMaster(String PatrolNumber, DateTime PatrolDate,  int PatrolQty, String OperatorCode, String ShiftCode, int EmployeeCode, 
-            String Remarks)
+            String Remarks, DateTime UpdatedDateTime)
         {
             try
             {
@@ -859,6 +901,8 @@ namespace VV
                 cmd.Parameters.Add(new SqlParameter("@ShiftCode", ShiftCode));
                 cmd.Parameters.Add(new SqlParameter("@EmployeeCode", EmployeeCode));
                 cmd.Parameters.Add(new SqlParameter("@Remarks", Remarks));
+
+                cmd.Parameters.Add(new SqlParameter("@CreatedDateTime", UpdatedDateTime));
 
                 cmd.ExecuteNonQuery();
 

@@ -67,12 +67,12 @@
 
     </script>
 
-
     <div class="container-fluid" style="text-align: left; margin-top: 20px;">
         <a class="btn btn-info btn-md" style="color: #fff; padding: 5px; margin-left: 10px; background-color: #0068a6; border-color: #0068a6; margin-bottom: 15px; box-sizing: border-box;" runat="server" href="~/Views/ICSOrders.aspx">ICS Orders</a>
         <a class="btn btn-info btn-md" style="color: #fff; padding: 5px; margin-left: 10px; background-color: #0068a6; border-color: #0068a6; margin-bottom: 15px; box-sizing: border-box;" runat="server" href="~/Views/NonICSOrders.aspx">Non ICS Orders</a>
         <a class="btn btn-info btn-md" style="color: #fff; padding: 5px; margin-left: 10px; background-color: #0068a6; border-color: #0068a6; margin-bottom: 15px; box-sizing: border-box;" runat="server" href="~/Views/BulkHeatNoUpdate.aspx">Bulk Update</a>
         <a class="btn btn-info btn-md" style="color: #fff; padding: 5px; margin-left: 10px; background-color: #0068a6; border-color: #0068a6; margin-bottom: 15px; box-sizing: border-box;" runat="server" href="~/Views/PatrolInspection.aspx">Patrol Inspection</a>
+        <%--<a class="btn btn-info btn-md" style="color: #fff; padding: 5px; margin-left: 10px; background-color: #0068a6; border-color: #0068a6; margin-bottom: 15px; box-sizing: border-box;" runat="server" href="~/Views/FindPatrolNumber.aspx">Find Patrol No</a>--%>
         <span class="container-fluid" style="float: right; margin-right: 10px;">
             <a class="btn btn-info btn-md" style="color: #fff; padding: 5px; margin-left: 10px; background-color: #0068a6; border-color: #0068a6; margin-bottom: 15px; box-sizing: border-box;" runat="server" href="~/Account/Login.aspx">Logout</a>
         </span>
@@ -119,9 +119,13 @@
 
             <div class="sec-grid col-lg-4 col-md-4 col-sm-6 col-xs-6">
                 <asp:Label ID="lblPatrolNumber" runat="server" Text="Patrol No" CssClass="text-right col-lg-4 col-md-5 form-required col-sm-4 col-xs-5"></asp:Label>
-                <asp:TextBox ID="txtPatrolNumber" runat="server" OnTextChanged="txtPatrolNumber_TextChanged" AutoPostBack="true" CssClass="form-control col-md-7 col-sm-8 col-xs-7"></asp:TextBox>
+                <asp:TextBox ID="txtPatrolNumber" runat="server" ToolTip="Please enter saved patrol number or select location and sub location to generate new one!." OnTextChanged="txtPatrolNumber_TextChanged" AutoPostBack="true" CssClass="form-control col-md-7 col-sm-8 col-xs-7"></asp:TextBox>
+                <asp:LinkButton ID="LinkButton1" Visible="false" target="_blank" PostBackUrl="~/Views/FindPatrolNumber.aspx" runat="server">Find Patrol Number?</asp:LinkButton>
                 <%--<asp:Button ID="btnEdit" OnClick="btnEdit_Click" runat="server" Style="background-color: #c1c1c1;" CssClass="text-right btn btn-default" Text="Edit" />--%>
             </div>
+           <%-- <div>
+                <asp:Label ID="lblFindPatrolNumber" runat="server" Text="?"></asp:Label>
+            </div>--%>
             <div class="sec-grid gen-button col-lg-3 col-md-3 col-sm-6 col-xs-6">
                 <asp:Button ID="btnGenerate" OnClick="btnGenerate_Click" runat="server" Style="background-color: #c1c1c1;" CssClass="text-right btn btn-default" Text="Generate" />
                 <asp:Button ID="btnDelete" OnClick="btnDelete_Click" runat="server" Style="background-color: #c1c1c1;" CssClass="text-right btn btn-default" Text="Remove" />
@@ -276,6 +280,7 @@
                             </asp:DropDownList>--%>
                             <%--<asp:Label ID="lblMeets" runat="server" Text='<%# Eval("MeetName")%>'></asp:Label>--%>
                             <%--SelectedValue='<%# Bind("Meets")%>'--%>
+                            <asp:Label ID="lblMeets" runat="server" Text='<%# Eval("MeetName")%>' Visible="false"></asp:Label>
                             <asp:DropDownList ID="ddlMeets" CssClass="input-box col-md-6 col-sm-6 col-xs-8" Style="padding-right: 0;" runat="server">
                             </asp:DropDownList>
                         </ItemTemplate>
