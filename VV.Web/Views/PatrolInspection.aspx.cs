@@ -22,7 +22,7 @@ namespace VV.Web.Views
             if (!IsPostBack)
             {
                 DateTime currentDate = DateTime.UtcNow;
-                txtPatrolDate.Text = Convert.ToString(currentDate.ToString("dd/MM/yyyy"));
+                txtPatrolDate.Text = Convert.ToString(currentDate.ToString("MM/dd/yyyy"));
 
                 var userDto = UsersDTO.Instance;
 
@@ -727,6 +727,8 @@ namespace VV.Web.Views
         {
             bool IsPatrolNumberExist = false;
 
+            var selectedDate = DateTime.ParseExact(txtPatrolDate.Text, "MM/dd/yyyy", null);
+
             try
             {
                 IsPatrolNumberExist = _DBObj.IsPatrolNumberExist(txtPatrolNumber.Text.Trim());
@@ -765,7 +767,7 @@ namespace VV.Web.Views
                     var deletedSerialCount = Convert.ToString(ViewState["DeletedSerialNoList"]) == "" ? Convert.ToString(txtPatrolQty.Text) : Convert.ToString(ViewState["DeletedSerialNoList"]);
 
                     // Patrol Master
-                    _DBObj.InsertPatrolInspectionMaster(txtPatrolNumber.Text, Convert.ToDateTime(txtPatrolDate.Text), ddlLocation.SelectedValue, ddlSubLocation.SelectedValue,
+                    _DBObj.InsertPatrolInspectionMaster(txtPatrolNumber.Text, selectedDate, ddlLocation.SelectedValue, ddlSubLocation.SelectedValue,
                         txtProdOrderNo.Text, Convert.ToInt32(deletedSerialCount), ddlOperator.SelectedValue, ddlShift.SelectedValue, Convert.ToInt32(ddlInspBy.SelectedValue), txtRemarks.Text,
                         System.DateTime.UtcNow);
 
@@ -800,35 +802,50 @@ namespace VV.Web.Views
                 {
                     foreach (GridViewRow row in this.gridPatrolInspection.Rows)
                     {
+                        var savedImage = string.Empty;
+                        string path = "";
+                        string image = string.Empty;
+
                         string lblCheckListSerial = ((Label)row.FindControl("lblCheckListSerial")).Text.ToString();
                         string lblCheckListDescription = ((Label)row.FindControl("lblCheckListDescription")).Text.ToString();
                         DropDownList ddlMeets = ((DropDownList)row.FindControl("ddlMeets"));
                         string txtObservation = ((TextBox)row.FindControl("txtObservation")).Text.ToString();
 
+                        savedImage = ((Image)row.FindControl("Image1")).ImageUrl;
+
                         FileUpload FileUpload = (FileUpload)row.FindControl("FileUpload1");
 
-                        string path = "";
-
-                        path += FileUpload.FileName;
-                        //save image in folder  
-
-                        if (!string.IsNullOrEmpty(path))
+                        if (FileUpload.HasFile)
                         {
-                            FileUpload.SaveAs(MapPath("~/FileUpload/" + path));
+                            path += FileUpload.FileName;
+
+                            //save image in folder  
+                            if (!string.IsNullOrEmpty(path))
+                            {
+                                FileUpload.SaveAs(MapPath("~/FileUpload/" + path));
+                            }
+
+                            image = FileUpload.FileName;
+                        }
+
+                        else if (!string.IsNullOrEmpty(savedImage) && string.IsNullOrEmpty(path))
+                        {
+                            image = ((Image)row.FindControl("Image1")).ImageUrl.Substring(13);
+                            path = image;  
                         }
 
                         if (!string.IsNullOrEmpty(txtPatrolNumber.Text) && !string.IsNullOrEmpty(txtPatrolQty.Text))
                         {
                             // Patrol Details
                             _DBObj.UpdatePatrolInspectionDetails(txtPatrolNumber.Text, lblCheckListSerial.ToString(), ddlMeets.SelectedValue, txtObservation.ToString(),
-                                "", "", FileUpload.FileName, path);
+                                "", "", image, path);
                         }
                     }
 
                     var deletedSerialCount = Convert.ToString(ViewState["DeletedSerialNoList"]) == "" ? Convert.ToString(txtPatrolQty.Text) : Convert.ToString(ViewState["DeletedSerialNoList"]);
 
                     // Patrol Master
-                    _DBObj.UpdatePatrolInspectionMaster(txtPatrolNumber.Text, Convert.ToDateTime(txtPatrolDate.Text), 
+                    _DBObj.UpdatePatrolInspectionMaster(txtPatrolNumber.Text, selectedDate, 
                         Convert.ToInt32(deletedSerialCount), ddlOperator.SelectedValue, ddlShift.SelectedValue, Convert.ToInt32(ddlInspBy.SelectedValue), txtRemarks.Text, System.DateTime.UtcNow);
 
                     Clear();
@@ -864,7 +881,7 @@ namespace VV.Web.Views
                     lblMessage.Visible = false;
 
                     DateTime patrolDate = Convert.ToDateTime(ds.Tables[0].Rows[0]["PatrolDate"]);
-                    txtPatrolDate.Text = Convert.ToString(patrolDate.ToString("dd/MM/yyyy"));
+                    txtPatrolDate.Text = Convert.ToString(patrolDate.ToString("MM/dd/yyyy"));
                     ddlLocation.SelectedValue = Convert.ToString(ds.Tables[0].Rows[0]["LocationCode"]);
                     ddlSubLocation.SelectedValue = Convert.ToString(ds.Tables[0].Rows[0]["SubLocationCode"]);
                     txtProdOrderNo.Text = Convert.ToString(ds.Tables[0].Rows[0]["ProdOrderNo"]);

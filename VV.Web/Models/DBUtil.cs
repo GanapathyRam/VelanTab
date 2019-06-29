@@ -902,7 +902,7 @@ namespace VV
                 cmd.Parameters.Add(new SqlParameter("@EmployeeCode", EmployeeCode));
                 cmd.Parameters.Add(new SqlParameter("@Remarks", Remarks));
 
-                cmd.Parameters.Add(new SqlParameter("@CreatedDateTime", UpdatedDateTime));
+                cmd.Parameters.Add(new SqlParameter("@UpdatedDateTime", UpdatedDateTime));
 
                 cmd.ExecuteNonQuery();
 
