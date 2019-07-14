@@ -1119,7 +1119,6 @@ namespace VV
             }
         }
 
-
         public DataSet GetPatrolMaster(String PatrolNumber)
         {
             DataSet ds = new DataSet();
@@ -1145,6 +1144,36 @@ namespace VV
             {
                 conn.Close();
                 Logger.Write(this.GetType().ToString() + " : GetPatrolMaster() : " + " : " + DateTime.Now + " : " + ex.Message.ToString(), Category.General, Priority.Highest);
+                throw ex;
+            }
+        }
+
+        public DataSet GetPatrolNumberFromProdOrderNo(string ProdOrderNo, string LocationCode)
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                this.init();
+
+                SqlCommand cmd = new SqlCommand("[spGetPatrolNumberFromProdOrderNo]", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.Add(new SqlParameter("@ProdOrderNo", ProdOrderNo));
+                cmd.Parameters.Add(new SqlParameter("@LocationCode", LocationCode));
+
+                SqlDataAdapter da = new SqlDataAdapter();
+                da.SelectCommand = cmd;
+
+                da.Fill(ds);
+
+                conn.Close();
+
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                conn.Close();
+                Logger.Write(this.GetType().ToString() + " : GetPatrolNumberFromProdOrderNo() : " + " : " + DateTime.Now + " : " + ex.Message.ToString(), Category.General, Priority.Highest);
                 throw ex;
             }
         }

@@ -76,6 +76,64 @@
         </span>
     </div>
 
+    <div class="container-fluid">
+        <div class="row" style="margin: 20px">
+            <div class="sec-grid col-lg-4 col-md-4 col-sm-6 col-xs-6">
+                <asp:Label ID="lblProdOrderNo" runat="server" Text="Prod Order No" CssClass="text-right res-pad form-required col-lg-4 col-md-5 col-sm-4 col-xs-5"></asp:Label>
+                <asp:TextBox ID="txtProdOrderNo" runat="server" CssClass="form-control col-lg-8 col-md-8 col-sm-8 col-xs-7"></asp:TextBox>
+
+                <asp:RequiredFieldValidator ID="rfvLine1"
+                    ControlToValidate="txtProdOrderNo" runat="server"
+                    Display="Dynamic"
+                    CssClass="field-validation-error"
+                    Text="*" ForeColor="Red" Font-Bold="true" Style="margin-left: 10px;" />
+            </div>
+            <div class="sec-grid col-lg-4 col-md-4 col-sm-6 col-xs-6">
+                <asp:Label ID="lblLocation" runat="server" Text="Location" CssClass="text-right col-lg-4 col-md-5 col-sm-4 col-xs-5"></asp:Label>
+                <asp:DropDownList ID="ddlLocation" DataTextField="LocationName" DataValueField="LocationCode" runat="server" CssClass="input-box col-lg-6 col-md-6 col-sm-6 col-xs-7"></asp:DropDownList>
+                <asp:RequiredFieldValidator ID="RequiredFieldValidator" Text="*" ForeColor="Red" Font-Bold="true" Style="margin-left: 10px;" InitialValue="----Please Select----"
+                    ControlToValidate="ddlLocation" runat="server" />
+            </div>
+             <div class="sec-grid find-submit-btn col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                <asp:Button ID="btnSubmit" OnClick="btnSubmit_Click" runat="server" Style="background-color: #c1c1c1;" CssClass="text-right btn btn-default" Text="Submit" />
+              </div>
+            <%--<div class="sec-grid col-lg-4 col-md-4 col-sm-6 col-xs-6">
+                <asp:Label ID="lblSubLocation" runat="server" Text="Sub Location" CssClass="text-right res-pad col-lg-4 col-md-5 col-sm-4 col-xs-5" required="required"></asp:Label>
+                <asp:DropDownList ID="ddlSubLocation" DataTextField="SubLocationName" DataValueField="SubLocationCode" runat="server" CssClass="input-box col-md-6 col-sm-6 col-xs-7"></asp:DropDownList>
+                <asp:RequiredFieldValidator ID="RequiredFieldValidator1" Text="*" ForeColor="Red" Font-Bold="true" Style="margin-left: 10px;" InitialValue="----Please Select----" ControlToValidate="ddlSubLocation" runat="server" />
+            </div>--%>
+        </div>
+
+        <asp:UpdatePanel ID="UpdatePanel1" UpdateMode="Conditional" runat="server">
+                <ContentTemplate>
+                    <div class="table-responsive col-lg-9 col-md-9 col-sm-12 col-xs-12">
+                        <asp:GridView ID="GridViewFindPatrol" runat="server" Style="width: 300px;" AutoGenerateColumns="false"
+                            OnPageIndexChanging="GridViewFindPatrol_PageIndexChanging" CssClass="table table-striped table-bordered table-hover"
+                            EmptyDataText="No Patrol Number's to display."
+                            AllowPaging="true">
+                            <Columns>
+                                <asp:TemplateField HeaderStyle-HorizontalAlign="Center" HeaderText="Patrol Number" HeaderStyle-CssClass="visible-xs visible-md visible-sm visible-lg" ItemStyle-CssClass="visible-xs visible-sm visible-md visible-lg">
+                                    <ItemTemplate>
+                                        <asp:Label ID="lblPatrolNumber" Text='<%# Bind("PatrolNumber") %>' runat="server" />
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField HeaderStyle-HorizontalAlign="Center" HeaderText="Patrol Date" HeaderStyle-CssClass="visible-xs visible-md visible-sm visible-lg" ItemStyle-CssClass="visible-xs visible-sm visible-md visible-lg">
+                                    <ItemTemplate>
+                                        <asp:Label ID="lblPatrolDate" Text='<%# Bind("PatrolDate", "{0:dd/MM/yyyy}") %>' runat="server" />
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField HeaderStyle-HorizontalAlign="Center" HeaderText="Qty" HeaderStyle-CssClass="visible-xs visible-md visible-sm visible-lg" ItemStyle-CssClass="visible-xs visible-sm visible-md visible-lg">
+                                    <ItemTemplate>
+                                        <asp:Label ID="lblPatrolQty" Text='<%# Bind("PatrolQty") %>' runat="server" />
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                            </Columns>
+                        </asp:GridView>
+                    </div>
+                </ContentTemplate>
+            </asp:UpdatePanel>
+    </div>
+
 </asp:Content>
 
 

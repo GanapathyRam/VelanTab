@@ -33,6 +33,12 @@
             }
         }
 
+        function findPatrolNumber()
+        {
+            //window.location.href = "FindPatrolNumber.aspx";
+            window.open("FindPatrolNumber.aspx", '_blank');
+        }
+
         function IsCheckBox(chk) {
             return (chk.type == 'checkbox');
         }
@@ -41,7 +47,7 @@
             $('[id*=txtPatrolDate]').datepicker({
                 changeMonth: true,
                 changeYear: true,
-                format: "dd/mm/yyyy",
+                format: "mm/dd/yyyy",
                 language: "tr"
             });
         });
@@ -97,8 +103,7 @@
             </div>
             <div class="sec-grid col-lg-4 col-md-4 col-sm-6 col-xs-6">
                 <asp:Label ID="lblDate" runat="server" Text="Date" CssClass="text-right form-required col-md-4 col-sm-4 col-xs-5"></asp:Label>
-
-                <asp:TextBox ID="txtPatrolDate" runat="server" CssClass="form-control col-md-8 col-sm-8 col-xs-7"></asp:TextBox>
+                <asp:TextBox ID="txtPatrolDate" runat="server" placeholder="mm/dd/yyyy" CssClass="form-control col-md-8 col-sm-8 col-xs-7"></asp:TextBox>
                 <asp:RequiredFieldValidator ID="RequiredFieldValidator2"
                     ControlToValidate="txtPatrolDate" runat="server"
                     Display="Dynamic"
@@ -120,15 +125,16 @@
             <div class="sec-grid col-lg-4 col-md-4 col-sm-6 col-xs-6">
                 <asp:Label ID="lblPatrolNumber" runat="server" Text="Patrol No" CssClass="text-right col-lg-4 col-md-5 form-required col-sm-4 col-xs-5"></asp:Label>
                 <asp:TextBox ID="txtPatrolNumber" runat="server" ToolTip="Please enter saved patrol number or select location and sub location to generate new one!." OnTextChanged="txtPatrolNumber_TextChanged" AutoPostBack="true" CssClass="form-control col-md-7 col-sm-8 col-xs-7"></asp:TextBox>
-                <asp:LinkButton ID="LinkButton1" Visible="false" target="_blank" PostBackUrl="~/Views/FindPatrolNumber.aspx" runat="server">Find Patrol Number?</asp:LinkButton>
-                <%--<asp:Button ID="btnEdit" OnClick="btnEdit_Click" runat="server" Style="background-color: #c1c1c1;" CssClass="text-right btn btn-default" Text="Edit" />--%>
+                <asp:LinkButton ID="LinkButton1" Visible="true" style="margin-left:5px; text-decoration:none; font-style:italic; color:#0000EE;" OnClientClick="findPatrolNumber()" target="_blank" runat="server">Find Patrol Number?</asp:LinkButton>
+                <%--<asp:Button ID="btnEdit" OnClick="btnEdit_Click" PostBackUrl="~/Views/FindPatrolNumber.aspx" runat="server" Style="background-color: #c1c1c1;" CssClass="text-right btn btn-default" Text="Edit" />--%>
             </div>
            <%-- <div>
                 <asp:Label ID="lblFindPatrolNumber" runat="server" Text="?"></asp:Label>
             </div>--%>
             <div class="sec-grid gen-button col-lg-3 col-md-3 col-sm-6 col-xs-6">
                 <asp:Button ID="btnGenerate" OnClick="btnGenerate_Click" runat="server" Style="background-color: #c1c1c1;" CssClass="text-right btn btn-default" Text="Generate" />
-                <asp:Button ID="btnDelete" OnClick="btnDelete_Click" runat="server" Style="background-color: #c1c1c1;" CssClass="text-right btn btn-default" Text="Remove" />
+                <asp:Button ID="btnDelete" OnClick="btnDelete_Click" runat="server" Style="background-color: #c1c1c1;" CssClass="text-right btn btn-default" Text="Delete" />
+                <asp:Button ID="btnReport" OnClick="btnReport_Click" runat="server" Visible="true" Style="background-color: #c1c1c1;" CssClass="text-right btn btn-default" Text="Report" />
             </div>
             <%-- <asp:Button ID="btnShowPopup" runat="server" Text="Show Popup" />
             <div id="dialog" style="display: none">
@@ -178,11 +184,11 @@
             </div>
             <div class="sec-grid col-lg-8 col-md-8 col-sm-8 col-xs-9">
                 <asp:Label ID="lblDescription" runat="server" Text="Description" CssClass="text-right margin-text col-md-2 col-sm-3 col-xs-3"></asp:Label>
-                <asp:TextBox ID="txtDescription" runat="server" Style="max-width: 400px; margin-left: -2px;" CssClass="form-control col-md-7 col-sm-7 col-xs-7"></asp:TextBox>
+                <asp:TextBox ID="txtDescription" runat="server" Style="max-width: 400px; margin-left: -2px;" CssClass="form-control customer-box col-md-7 col-sm-7 col-xs-7"></asp:TextBox>
             </div>
             <div class="sec-grid col-lg-4 col-md-4 col-sm-8 col-xs-9">
                 <asp:Label ID="lblCustomer" runat="server" Text="Customer" CssClass="text-right margin-text col-lg-4 col-md-5 col-sm-3 col-xs-3"></asp:Label>
-                <asp:TextBox ID="txtCustomer" runat="server" CssClass="form-control cus-md col-md-8 col-sm-7 col-xs-7"></asp:TextBox>
+                <asp:TextBox ID="txtCustomer" runat="server" CssClass="form-control cus-md customer-box col-md-8 col-sm-7 col-xs-7"></asp:TextBox>
             </div>
             <div class="sec-grid col-lg-4 col-md-4 col-sm-6 col-xs-6">
                 <asp:Label ID="lblSaleOrder" runat="server" Text="Sale Order" CssClass="text-right col-md-4 col-sm-4 col-xs-5"></asp:Label>
@@ -281,7 +287,7 @@
                             <%--<asp:Label ID="lblMeets" runat="server" Text='<%# Eval("MeetName")%>'></asp:Label>--%>
                             <%--SelectedValue='<%# Bind("Meets")%>'--%>
                             <asp:Label ID="lblMeets" runat="server" Text='<%# Eval("MeetName")%>' Visible="false"></asp:Label>
-                            <asp:DropDownList ID="ddlMeets" CssClass="input-box col-md-6 col-sm-6 col-xs-8" Style="padding-right: 0;" runat="server">
+                            <asp:DropDownList ID="ddlMeets" CssClass="input-box col-md-6 col-sm-6 col-xs-8" Style="padding-right: 0; width: 130px;" runat="server">
                             </asp:DropDownList>
                         </ItemTemplate>
                         <%-- <EditItemTemplate>
