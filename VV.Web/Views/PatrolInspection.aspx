@@ -244,9 +244,9 @@
         <%--   <asp:UpdatePanel ID="EmployeePanel" UpdateMode="Conditional" runat="server">
                 <ContentTemplate>--%>
         <div class="table-responsive col-lg-9 col-md-9 col-sm-12">
-            <asp:GridView ID="gridPatrolInspection" OnRowCommand="gridPatrolInspection_RowCommand" AllowPaging="true"
+            <asp:GridView ID="gridPatrolInspection" OnRowCommand="gridPatrolInspection_RowCommand" AllowPaging="false"
                 OnRowEditing="gridPatrolInspection_RowEditing" OnRowUpdating="gridPatrolInspection_RowUpdating"
-                OnRowCancelingEdit="gridPatrolInspection_RowCancelingEdit"
+                OnRowCancelingEdit="gridPatrolInspection_RowCancelingEdit" OnPageIndexChanged="gridPatrolInspection_PageIndexChanged"
                 OnRowDataBound="gridPatrolInspection_RowDataBound" runat="server" Width="100%"
                 CssClass="table table-striped table-bordered table-hover" AutoGenerateColumns="False"
                 EmptyDataText="There are no data records to display." OnSelectedIndexChanging="gridPatrolInspection_SelectedIndexChanging">

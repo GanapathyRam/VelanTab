@@ -62,9 +62,19 @@ input[type="text"], input[type="password"], input[type="email"], input[type="tel
     .margin-left{
         margin-left:-4px;
     }
+    .customer-box{
+        width:300px;
+        margin-left:10px!important;
+    }
     .gen-button{
         padding-right:70px;
     }
+    .find-submit-btn{
+        text-align:right;
+    }
+    input[type="text"], input[type="password"], input[type="email"], input[type="tel"], input[type="select"] {
+    max-width: inherit;
+}
 }
 
 @media (min-width: 992px) and (max-width: 1200px) {
