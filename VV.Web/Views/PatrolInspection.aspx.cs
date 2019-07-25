@@ -1137,10 +1137,8 @@ namespace VV.Web.Views
                             //writer.PageEvent = pdfFooter;
 
                             document.Open();
-                            //pdfFooter.onEndPage(writer, document);
-                            //document.Add(new Paragraph("Hello World Again"));
-
                             table = new PdfPTable(5);
+                            table.HeaderRows = 7;
                             table.TotalWidth = 500f;
                             table.LockedWidth = true;
 
@@ -1173,7 +1171,7 @@ namespace VV.Web.Views
                                 item = ds4.Tables[0].Rows[0]["ItemNumber"].ToString();
                             }
 
-                            PdfPCell itemNumber = new PdfPCell(new Phrase("Item No    : " + item + "", FontFactory.GetFont("Arial", BaseFont.WINANSI, BaseFont.EMBEDDED, 10, iTextSharp.text.Font.NORMAL, BaseColor.BLACK)));
+                            PdfPCell itemNumber = new PdfPCell(new Phrase("Item No                          : " + item + "", FontFactory.GetFont("Arial", BaseFont.WINANSI, BaseFont.EMBEDDED, 10, iTextSharp.text.Font.NORMAL, BaseColor.BLACK)));
                             itemNumber.Colspan = 3;
                             //itemNumber.FixedHeight = 25f;
                             itemNumber.PaddingTop = 7f;
@@ -1182,7 +1180,7 @@ namespace VV.Web.Views
                             itemNumber.HorizontalAlignment = 0; //0=Left, 1=Centre, 2=Right
                             table.AddCell(itemNumber);
 
-                            PdfPCell patrolNumber = new PdfPCell(new Phrase("Patrol No   : " + ds.Tables[0].Rows[0]["PatrolNumber"].ToString() + "", FontFactory.GetFont("Arial", BaseFont.WINANSI, BaseFont.EMBEDDED, 10, iTextSharp.text.Font.NORMAL, BaseColor.BLACK)));
+                            PdfPCell patrolNumber = new PdfPCell(new Phrase("Patrol No        : " + ds.Tables[0].Rows[0]["PatrolNumber"].ToString() + "", FontFactory.GetFont("Arial", BaseFont.WINANSI, BaseFont.EMBEDDED, 10, iTextSharp.text.Font.NORMAL, BaseColor.BLACK)));
                             patrolNumber.Colspan = 2;
                             patrolNumber.PaddingTop = 7f;
                             patrolNumber.BorderWidthLeft = 0f;
@@ -1201,7 +1199,7 @@ namespace VV.Web.Views
                                 description = ds4.Tables[0].Rows[0]["Description"].ToString();
                             }
 
-                            PdfPCell itemDescription = new PdfPCell(new Phrase("Item Description   : " + description + "", FontFactory.GetFont("Arial", BaseFont.WINANSI, BaseFont.EMBEDDED, 10, iTextSharp.text.Font.NORMAL, BaseColor.BLACK)));
+                            PdfPCell itemDescription = new PdfPCell(new Phrase("Item Description            : " + description + "", FontFactory.GetFont("Arial", BaseFont.WINANSI, BaseFont.EMBEDDED, 10, iTextSharp.text.Font.NORMAL, BaseColor.BLACK)));
                             itemDescription.Colspan = 3;
                             //itemDescription.FixedHeight = 25f;
                             itemDescription.PaddingTop = 7f;
@@ -1234,7 +1232,7 @@ namespace VV.Web.Views
                                 }
                             }
 
-                            PdfPCell saleOrderNo = new PdfPCell(new Phrase("Sale Order No + Pos   : " + orderNo + " - " + position + "", FontFactory.GetFont("Arial", BaseFont.WINANSI, BaseFont.EMBEDDED, 10, iTextSharp.text.Font.NORMAL, BaseColor.BLACK)));
+                            PdfPCell saleOrderNo = new PdfPCell(new Phrase("Sale Order No + Pos     : " + orderNo + " - " + position + "", FontFactory.GetFont("Arial", BaseFont.WINANSI, BaseFont.EMBEDDED, 10, iTextSharp.text.Font.NORMAL, BaseColor.BLACK)));
                             saleOrderNo.Colspan = 3;
                             //saleOrderNo.FixedHeight = 25f;
                             saleOrderNo.PaddingTop = 7f;
@@ -1243,7 +1241,7 @@ namespace VV.Web.Views
                             saleOrderNo.BorderWidthBottom = 0f;
                             table.AddCell(saleOrderNo);
 
-                            PdfPCell location = new PdfPCell(new Phrase("Location   : " + ds.Tables[0].Rows[0]["LocationName"].ToString() + "", FontFactory.GetFont("Arial", BaseFont.WINANSI, BaseFont.EMBEDDED, 10, iTextSharp.text.Font.NORMAL, BaseColor.BLACK)));
+                            PdfPCell location = new PdfPCell(new Phrase("Location          : " + ds.Tables[0].Rows[0]["LocationName"].ToString() + "", FontFactory.GetFont("Arial", BaseFont.WINANSI, BaseFont.EMBEDDED, 10, iTextSharp.text.Font.NORMAL, BaseColor.BLACK)));
                             location.Colspan = 2;
                             location.PaddingTop = 7f;
                             location.BorderWidthLeft = 0f;
@@ -1261,7 +1259,7 @@ namespace VV.Web.Views
                                 }
                             }
 
-                            PdfPCell customer = new PdfPCell(new Phrase("Customer   : " + customerName + "", FontFactory.GetFont("Arial", BaseFont.WINANSI, BaseFont.EMBEDDED, 10, iTextSharp.text.Font.NORMAL, BaseColor.BLACK)));
+                            PdfPCell customer = new PdfPCell(new Phrase("Customer                       : " + customerName + "", FontFactory.GetFont("Arial", BaseFont.WINANSI, BaseFont.EMBEDDED, 10, iTextSharp.text.Font.NORMAL, BaseColor.BLACK)));
                             customer.Colspan = 3;
                             customer.PaddingTop = 7f;
                             //customer.PaddingBottom = 3f;
@@ -1294,7 +1292,7 @@ namespace VV.Web.Views
                                 }
                             }
 
-                            PdfPCell custPoNo = new PdfPCell(new Phrase("Cust.PO.No + Line No  : " + customerPoNo + " - " + lineNo + "", FontFactory.GetFont("Arial", BaseFont.WINANSI, BaseFont.EMBEDDED, 10, iTextSharp.text.Font.NORMAL, BaseColor.BLACK)));
+                            PdfPCell custPoNo = new PdfPCell(new Phrase("Cust.PO.No + Line No   : " + customerPoNo + " - " + lineNo + "", FontFactory.GetFont("Arial", BaseFont.WINANSI, BaseFont.EMBEDDED, 10, iTextSharp.text.Font.NORMAL, BaseColor.BLACK)));
                             custPoNo.Colspan = 3;
                             custPoNo.PaddingTop = 7f;
                             //custPoNo.BorderWidthRight = 0f;
@@ -1303,7 +1301,7 @@ namespace VV.Web.Views
                             custPoNo.HorizontalAlignment = 0; //0=Left, 1=Centre, 2=Right
                             table.AddCell(custPoNo);
 
-                            PdfPCell pdfOperator = new PdfPCell(new Phrase("Operator   : " + ds.Tables[0].Rows[0]["OperatorName"].ToString() + "", FontFactory.GetFont("Arial", BaseFont.WINANSI, BaseFont.EMBEDDED, 10, iTextSharp.text.Font.NORMAL, BaseColor.BLACK)));
+                            PdfPCell pdfOperator = new PdfPCell(new Phrase("Operator          : " + ds.Tables[0].Rows[0]["OperatorName"].ToString() + "", FontFactory.GetFont("Arial", BaseFont.WINANSI, BaseFont.EMBEDDED, 10, iTextSharp.text.Font.NORMAL, BaseColor.BLACK)));
                             pdfOperator.Colspan = 2;
                             pdfOperator.PaddingTop = 7f;
                             pdfOperator.BorderWidthTop = 0f;
@@ -1338,7 +1336,7 @@ namespace VV.Web.Views
                                 serialNoList = serialNoList.TrimEnd(',');
                             }
 
-                            PdfPCell volumeNo = new PdfPCell(new Phrase("Valve Sl.No  : " + serialNoList + "", FontFactory.GetFont("Arial", BaseFont.WINANSI, BaseFont.EMBEDDED, 10, iTextSharp.text.Font.NORMAL, BaseColor.BLACK)));
+                            PdfPCell volumeNo = new PdfPCell(new Phrase("Valve Sl.No                    : " + serialNoList + "", FontFactory.GetFont("Arial", BaseFont.WINANSI, BaseFont.EMBEDDED, 10, iTextSharp.text.Font.NORMAL, BaseColor.BLACK)));
                             volumeNo.Colspan = 3;
                             volumeNo.PaddingTop = 7f;
                             //volumeNo.BorderWidthLeft = 0f;
@@ -1347,7 +1345,7 @@ namespace VV.Web.Views
                             volumeNo.HorizontalAlignment = 0; //0=Left, 1=Centre, 2=Right
                             table.AddCell(volumeNo);
 
-                            PdfPCell shift = new PdfPCell(new Phrase("Shift   : " + ds.Tables[0].Rows[0]["ShiftName"].ToString() + "", FontFactory.GetFont("Arial", BaseFont.WINANSI, BaseFont.EMBEDDED, 10, iTextSharp.text.Font.NORMAL, BaseColor.BLACK)));
+                            PdfPCell shift = new PdfPCell(new Phrase("Shift      : " + ds.Tables[0].Rows[0]["ShiftName"].ToString() + "", FontFactory.GetFont("Arial", BaseFont.WINANSI, BaseFont.EMBEDDED, 10, iTextSharp.text.Font.NORMAL, BaseColor.BLACK)));
                             shift.Colspan = 1;
                             shift.PaddingTop = 7f;
                             shift.BorderWidthRight = 0f;
