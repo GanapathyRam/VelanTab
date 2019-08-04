@@ -13,7 +13,6 @@
     <!-- Bootstrap DatePicker -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.css" type="text/css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.js" type="text/javascript"></script>
-
     <script lang="javascript" type="text/javascript">
         function Check(parentChk) {
 
@@ -33,8 +32,7 @@
             }
         }
 
-        function findPatrolNumber()
-        {
+        function findPatrolNumber() {
             //window.location.href = "FindPatrolNumber.aspx";
             window.open("FindPatrolNumber.aspx", '_blank');
         }
@@ -125,10 +123,10 @@
             <div class="sec-grid col-lg-4 col-md-4 col-sm-6 col-xs-6">
                 <asp:Label ID="lblPatrolNumber" runat="server" Text="Patrol No" CssClass="text-right col-lg-4 col-md-5 form-required col-sm-4 col-xs-5"></asp:Label>
                 <asp:TextBox ID="txtPatrolNumber" runat="server" ToolTip="Please enter saved patrol number or select location and sub location to generate new one!." OnTextChanged="txtPatrolNumber_TextChanged" AutoPostBack="true" CssClass="form-control col-md-7 col-sm-8 col-xs-7"></asp:TextBox>
-                <asp:LinkButton ID="LinkButton1" Visible="true" style="margin-left:5px; text-decoration:none; font-style:italic; color:#0000EE;" OnClientClick="findPatrolNumber()" target="_blank" runat="server">Find Patrol Number?</asp:LinkButton>
+                <asp:LinkButton ID="LinkButton1" Visible="true" Style="margin-left: 5px; text-decoration: none; font-style: italic; color: #0000EE;" OnClientClick="findPatrolNumber()" target="_blank" runat="server">Find Patrol Number?</asp:LinkButton>
                 <%--<asp:Button ID="btnEdit" OnClick="btnEdit_Click" PostBackUrl="~/Views/FindPatrolNumber.aspx" runat="server" Style="background-color: #c1c1c1;" CssClass="text-right btn btn-default" Text="Edit" />--%>
             </div>
-           <%-- <div>
+            <%-- <div>
                 <asp:Label ID="lblFindPatrolNumber" runat="server" Text="?"></asp:Label>
             </div>--%>
             <div class="sec-grid gen-button col-lg-3 col-md-3 col-sm-6 col-xs-6">
@@ -139,38 +137,39 @@
             <%-- <asp:Button ID="btnShowPopup" runat="server" Text="Show Popup" />
             <div id="dialog" style="display: none">
             </div>--%>
-
-            <asp:UpdatePanel ID="UpdatePanel1" UpdateMode="Conditional" runat="server">
-                <ContentTemplate>
-                    <div class="table-responsive col-lg-9 col-md-9 col-sm-12 col-xs-12">
-                        <asp:GridView ID="GridViewPopUp" runat="server" Style="width: 300px;" AutoGenerateColumns="false"
-                            OnPageIndexChanging="GridViewPopUp_PageIndexChanging" CssClass="table table-striped table-bordered table-hover"
-                            EmptyDataText="No Serial No(s) to display."
-                            AllowPaging="true">
-                            <Columns>
-                                <asp:TemplateField HeaderStyle-HorizontalAlign="Center" HeaderText="Select" HeaderStyle-Width="30px" HeaderStyle-CssClass="visible-xs visible-sm visible-md visible-lg" ItemStyle-CssClass="visible-xs visible-sm visible-md visible-lg">
-                                    <HeaderTemplate>
-                                        <input type="checkbox" id="chkAll" name="chkAll" onclick="Check(this)" />
-                                    </HeaderTemplate>
-                                    <ItemTemplate>
-                                        <asp:CheckBox ID="chkSelect" EnableViewState="false" runat="server" onclick="EnableTextBox(this)" />
-                                    </ItemTemplate>
-                                    <ItemStyle Wrap="false" />
-                                </asp:TemplateField>
-                                <asp:TemplateField HeaderStyle-HorizontalAlign="Center" HeaderText="Serial No" HeaderStyle-CssClass="visible-xs visible-md visible-sm visible-lg" ItemStyle-CssClass="visible-xs visible-sm visible-md visible-lg">
-                                    <ItemTemplate>
-                                        <asp:Label ID="lblCheckListSerial" Text='<%# Bind("SerialNo") %>' runat="server" />
-                                    </ItemTemplate>
-                                </asp:TemplateField>
-                            </Columns>
-                        </asp:GridView>
-                        <div class="loc-grid-button">
-                            <asp:Button ID="btnSubmit" Text="Submit" runat="server" CssClass="btn btn-default" OnClick="btnSubmit_Click" />
-                            <asp:Button ID="btnPopDelete" Text="Delete" Visible="false" runat="server" CssClass="btn btn-default" OnClick="btnPopDelete_Click" />
+            <div class="container-fluid" style="border-bottom: 1px solid; border-bottom-color: silver; padding-bottom: 100px;">
+                <asp:UpdatePanel ID="UpdatePanel1" UpdateMode="Conditional" runat="server">
+                    <ContentTemplate>
+                        <div class="table-responsive col-lg-9 col-md-9 col-sm-12 col-xs-12" style="height: 200px; width: 80%; overflow: auto;">
+                            <asp:GridView ID="GridViewPopUp" runat="server" Style="width: 300px;" AutoGenerateColumns="false"
+                                OnPageIndexChanging="GridViewPopUp_PageIndexChanging" CssClass="table table-striped table-bordered table-hover"
+                                EmptyDataText="No Serial No(s) to display."
+                                AllowPaging="false">
+                                <Columns>
+                                    <asp:TemplateField HeaderStyle-HorizontalAlign="Center" HeaderText="Select" HeaderStyle-Width="30px" HeaderStyle-CssClass="visible-xs visible-sm visible-md visible-lg" ItemStyle-CssClass="visible-xs visible-sm visible-md visible-lg">
+                                        <HeaderTemplate>
+                                            <input type="checkbox" id="chkAll" name="chkAll" onclick="Check(this)" />
+                                        </HeaderTemplate>
+                                        <ItemTemplate>
+                                            <asp:CheckBox ID="chkSelect" EnableViewState="false" runat="server" onclick="EnableTextBox(this)" />
+                                        </ItemTemplate>
+                                        <ItemStyle Wrap="false" />
+                                    </asp:TemplateField>
+                                    <asp:TemplateField HeaderStyle-HorizontalAlign="Center" HeaderText="Serial No" HeaderStyle-CssClass="visible-xs visible-md visible-sm visible-lg" ItemStyle-CssClass="visible-xs visible-sm visible-md visible-lg">
+                                        <ItemTemplate>
+                                            <asp:Label ID="lblCheckListSerial" Text='<%# Bind("SerialNo") %>' runat="server" />
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+                                </Columns>
+                            </asp:GridView>
+                            <div class="loc-grid-button">
+                                <asp:Button ID="btnSubmit" Text="Submit" runat="server" CssClass="btn btn-default" OnClick="btnSubmit_Click" />
+                                <asp:Button ID="btnPopDelete" Text="Delete" Visible="false" runat="server" CssClass="btn btn-default" OnClick="btnPopDelete_Click" />
+                            </div>
                         </div>
-                    </div>
-                </ContentTemplate>
-            </asp:UpdatePanel>
+                    </ContentTemplate>
+                </asp:UpdatePanel>
+            </div>
         </div>
 
     </div>
@@ -275,8 +274,9 @@
                     </asp:TemplateField>
 
                     <asp:TemplateField HeaderText="Check List" HeaderStyle-CssClass="visible-xs visible-md visible-sm visible-lg" ItemStyle-CssClass="visible-xs visible-sm visible-md visible-lg">
+                        <ItemStyle Wrap="true" />
                         <ItemTemplate>
-                            <asp:Label ID="lblCheckListDescription" Text='<%# Bind("CheckListDescription") %>' runat="server" />
+                            <asp:Label ID="lblCheckListDescription" Style="word-wrap: normal; word-break: break-all;" Width="320px" Text='<%# Bind("CheckListDescription") %>' runat="server" />
                         </ItemTemplate>
                     </asp:TemplateField>
 
@@ -287,7 +287,7 @@
                             <%--<asp:Label ID="lblMeets" runat="server" Text='<%# Eval("MeetName")%>'></asp:Label>--%>
                             <%--SelectedValue='<%# Bind("Meets")%>'--%>
                             <asp:Label ID="lblMeets" runat="server" Text='<%# Eval("MeetName")%>' Visible="false"></asp:Label>
-                            <asp:DropDownList ID="ddlMeets" CssClass="input-box col-md-6 col-sm-6 col-xs-8" Style="padding-right: 0; width: 130px;" runat="server">
+                            <asp:DropDownList ID="ddlMeets" CssClass="input-box col-md-6 col-sm-6 col-xs-8" Style="padding-right: 0; width: 145px;" runat="server">
                             </asp:DropDownList>
                         </ItemTemplate>
                         <%-- <EditItemTemplate>
@@ -326,6 +326,9 @@
                         ItemStyle-CssClass="visible-xs visible-md visible-lg">
                         <ItemTemplate>
                             <asp:FileUpload ID="FileUpload1" runat="server" />
+                            <div Style="margin-top: 30px;">
+                                <asp:CheckBox ID="CheckBox1" Font-Bold="false" Style="font-weight:100 !important; margin-left:10px;" AutoPostBack="true" OnCheckedChanged="CheckBox1_CheckedChanged" Text="Delete Image" runat="server" />
+                            </div>
                         </ItemTemplate>
                         <EditItemTemplate>
                             <%--ImageUrl="~/Image/NoImageFound_1.jpg"--%>

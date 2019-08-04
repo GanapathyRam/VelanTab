@@ -92,9 +92,7 @@ namespace VV.Web.Models
 
         public override void OnEndPage(PdfWriter writer, Document doc)
         {
-            PdfPCell cell = null;
             PdfPTable table = null;
-
             table = new PdfPTable(5);
             table.TotalWidth = 500f;
             table.LockedWidth = true;
@@ -115,7 +113,7 @@ namespace VV.Web.Models
             footer.PaddingTop = 30f;
             footer.FixedHeight = 45f;
             footer.VerticalAlignment = 1;
-            footer.BorderWidth = 0.5f;
+            //footer.BorderWidth = 0.5f;
             table.AddCell(footer);
 
             table.WriteSelectedRows(0, -1, 47, 50, writer.DirectContent);

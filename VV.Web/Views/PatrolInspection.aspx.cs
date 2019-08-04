@@ -17,7 +17,6 @@ namespace VV.Web.Views
     public partial class PatrolInspection : System.Web.UI.Page
     {
         DBUtil _DBObj = new DBUtil();
-        //int globalPatrolQty = 0;
         string selectedSerialNoList = "";
 
         protected void Page_Load(object sender, EventArgs e)
@@ -48,6 +47,9 @@ namespace VV.Web.Views
                 //txtPatrolNumber.Enabled = false;
 
                 //GetPatrolDetails("P1902100001");
+
+                GridViewPopUp.DataSource = new DataTable();
+                GridViewPopUp.DataBind();
             }
         }
 
@@ -329,11 +331,6 @@ namespace VV.Web.Views
             //    }
             //}
         }
-
-        //protected void upload_Click(object sender, EventArgs e)
-        //{
-
-        //}
 
         protected void btnUpload_Click(object sender, EventArgs e)
         {
@@ -1094,7 +1091,7 @@ namespace VV.Web.Views
 
             try
             {
-                Document document = new Document(PageSize.A4, 10f, 10f, 30f, 10f);
+                Document document = new Document(PageSize.A4, 10f, 10f, 30f, 40f);
                 iTextSharp.text.Font NormalFont = FontFactory.GetFont("Arial", 12, iTextSharp.text.Font.NORMAL, BaseColor.BLACK);
 
                 bool IsPatrolNumberExist = _DBObj.IsPatrolNumberExist(txtPatrolNumber.Text.Trim());
@@ -1133,12 +1130,12 @@ namespace VV.Web.Views
                             PdfPCell cell = null;
                             PdfPTable table = null;
 
-                            //writer.PageEvent = new PdfFooter();
-                            //writer.PageEvent = pdfFooter;
+                            writer.PageEvent = new PdfFooter();
+                            writer.PageEvent = pdfFooter;
 
                             document.Open();
                             table = new PdfPTable(5);
-                            table.HeaderRows = 7;
+                            table.HeaderRows = 8;
                             table.TotalWidth = 500f;
                             table.LockedWidth = true;
 
@@ -1154,7 +1151,7 @@ namespace VV.Web.Views
                             cell.Colspan = 1;
                             table.AddCell(cell);
 
-                            PdfPCell header = new PdfPCell(new Phrase("PATROL INSPECTION REPORT", FontFactory.GetFont("Arial", BaseFont.WINANSI, BaseFont.EMBEDDED, 10, iTextSharp.text.Font.BOLD, BaseColor.BLACK)));
+                            PdfPCell header = new PdfPCell(new Phrase("PATROL INSPECTION REPORT", FontFactory.GetFont("Arial", BaseFont.WINANSI, BaseFont.EMBEDDED, 14, iTextSharp.text.Font.BOLD, BaseColor.BLACK)));
                             header.Colspan = 4;
                             header.PaddingTop = 15f;
                             header.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
@@ -1180,7 +1177,7 @@ namespace VV.Web.Views
                             itemNumber.HorizontalAlignment = 0; //0=Left, 1=Centre, 2=Right
                             table.AddCell(itemNumber);
 
-                            PdfPCell patrolNumber = new PdfPCell(new Phrase("Patrol No        : " + ds.Tables[0].Rows[0]["PatrolNumber"].ToString() + "", FontFactory.GetFont("Arial", BaseFont.WINANSI, BaseFont.EMBEDDED, 10, iTextSharp.text.Font.NORMAL, BaseColor.BLACK)));
+                            PdfPCell patrolNumber = new PdfPCell(new Phrase("Patrol No         : " + ds.Tables[0].Rows[0]["PatrolNumber"].ToString() + "", FontFactory.GetFont("Arial", BaseFont.WINANSI, BaseFont.EMBEDDED, 10, iTextSharp.text.Font.NORMAL, BaseColor.BLACK)));
                             patrolNumber.Colspan = 2;
                             patrolNumber.PaddingTop = 7f;
                             patrolNumber.BorderWidthLeft = 0f;
@@ -1208,7 +1205,7 @@ namespace VV.Web.Views
                             itemDescription.HorizontalAlignment = 0; //0=Left, 1=Centre, 2=Right
                             table.AddCell(itemDescription);
 
-                            PdfPCell pOrderNo = new PdfPCell(new Phrase("P.Order No     : " + ds.Tables[0].Rows[0]["ProdOrderNo"].ToString() + "", FontFactory.GetFont("Arial", BaseFont.WINANSI, BaseFont.EMBEDDED, 10, iTextSharp.text.Font.NORMAL, BaseColor.BLACK)));
+                            PdfPCell pOrderNo = new PdfPCell(new Phrase("P.Order No      : " + ds.Tables[0].Rows[0]["ProdOrderNo"].ToString() + "", FontFactory.GetFont("Arial", BaseFont.WINANSI, BaseFont.EMBEDDED, 10, iTextSharp.text.Font.NORMAL, BaseColor.BLACK)));
                             pOrderNo.Colspan = 2;
                             //pOrderNo.FixedHeight = 25f;
                             pOrderNo.BorderWidthTop = 0f;
@@ -1241,7 +1238,7 @@ namespace VV.Web.Views
                             saleOrderNo.BorderWidthBottom = 0f;
                             table.AddCell(saleOrderNo);
 
-                            PdfPCell location = new PdfPCell(new Phrase("Location          : " + ds.Tables[0].Rows[0]["LocationName"].ToString() + "", FontFactory.GetFont("Arial", BaseFont.WINANSI, BaseFont.EMBEDDED, 10, iTextSharp.text.Font.NORMAL, BaseColor.BLACK)));
+                            PdfPCell location = new PdfPCell(new Phrase("Location           : " + ds.Tables[0].Rows[0]["LocationName"].ToString() + "", FontFactory.GetFont("Arial", BaseFont.WINANSI, BaseFont.EMBEDDED, 10, iTextSharp.text.Font.NORMAL, BaseColor.BLACK)));
                             location.Colspan = 2;
                             location.PaddingTop = 7f;
                             location.BorderWidthLeft = 0f;
@@ -1268,7 +1265,7 @@ namespace VV.Web.Views
                             customer.HorizontalAlignment = 0; //0=Left, 1=Centre, 2=Right
                             table.AddCell(customer);
 
-                            PdfPCell subLocation = new PdfPCell(new Phrase("Sub Location   : " + ds.Tables[0].Rows[0]["SubLocationName"].ToString() + "", FontFactory.GetFont("Arial", BaseFont.WINANSI, BaseFont.EMBEDDED, 10, iTextSharp.text.Font.NORMAL, BaseColor.BLACK)));
+                            PdfPCell subLocation = new PdfPCell(new Phrase("Sub Location    : " + ds.Tables[0].Rows[0]["SubLocationName"].ToString() + "", FontFactory.GetFont("Arial", BaseFont.WINANSI, BaseFont.EMBEDDED, 10, iTextSharp.text.Font.NORMAL, BaseColor.BLACK)));
                             subLocation.Colspan = 2;
                             subLocation.PaddingTop = 7f;
                             subLocation.BorderWidthLeft = 0f;
@@ -1301,7 +1298,7 @@ namespace VV.Web.Views
                             custPoNo.HorizontalAlignment = 0; //0=Left, 1=Centre, 2=Right
                             table.AddCell(custPoNo);
 
-                            PdfPCell pdfOperator = new PdfPCell(new Phrase("Operator          : " + ds.Tables[0].Rows[0]["OperatorName"].ToString() + "", FontFactory.GetFont("Arial", BaseFont.WINANSI, BaseFont.EMBEDDED, 10, iTextSharp.text.Font.NORMAL, BaseColor.BLACK)));
+                            PdfPCell pdfOperator = new PdfPCell(new Phrase("Operator           : " + ds.Tables[0].Rows[0]["OperatorName"].ToString() + "", FontFactory.GetFont("Arial", BaseFont.WINANSI, BaseFont.EMBEDDED, 10, iTextSharp.text.Font.NORMAL, BaseColor.BLACK)));
                             pdfOperator.Colspan = 2;
                             pdfOperator.PaddingTop = 7f;
                             pdfOperator.BorderWidthTop = 0f;
@@ -1414,7 +1411,7 @@ namespace VV.Web.Views
                             gridComments.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
                             table.AddCell(gridComments);
 
-                            for (int i = 0; i < ds3.Tables[0].Rows.Count; i++)
+                            for (int i = 0; i <= ds3.Tables[0].Rows.Count - 1; i++)
                             {
                                 int j = i + 1;
                                 //ds3.Tables[0].Rows[i]["CheckListSerial"].ToString()
@@ -1436,6 +1433,7 @@ namespace VV.Web.Views
                                 //PdfPCell cellImage = ImageCell("~/FileUpload/" + ds3.Tables[0].Rows[i]["MeetsImage"].ToString() + "", 4.5f, PdfPCell.ALIGN_LEFT);
 
                                 PdfPTable nested = new PdfPTable(1);
+                                nested.DefaultCell.BorderWidth = iTextSharp.text.Rectangle.NO_BORDER;
 
                                 PdfPCell gridDescriptionValue = new PdfPCell(new Phrase("" + ds3.Tables[0].Rows[i]["CheckListDescription"].ToString() + "", FontFactory.GetFont("Arial", BaseFont.WINANSI, BaseFont.EMBEDDED, 10, iTextSharp.text.Font.NORMAL, BaseColor.BLACK)));
                                 gridDescriptionValue.Colspan = 2;
@@ -1485,7 +1483,7 @@ namespace VV.Web.Views
                                 gridMeetsValue.Colspan = 1;
                                 gridMeetsValue.PaddingTop = 5f;
                                 gridMeetsValue.PaddingTop = 5f;
-                                //gridMeetsValue.BorderWidthRight = 0f;
+                                gridMeetsValue.BorderWidthRight = 0f;
                                 //gridMeetsValue.BorderWidthBottom = 0f;
                                 gridMeetsValue.BorderWidthLeft = 0f;
                                 gridMeetsValue.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
@@ -1494,23 +1492,23 @@ namespace VV.Web.Views
                                 PdfPCell gridCommentsValue = new PdfPCell(new Phrase("" + ds3.Tables[0].Rows[i]["MeetsComments"].ToString() + "", FontFactory.GetFont("Arial", BaseFont.WINANSI, BaseFont.EMBEDDED, 10, iTextSharp.text.Font.NORMAL, BaseColor.BLACK)));
                                 gridCommentsValue.Colspan = 1;
                                 //gridCommentsValue.BorderWidthTop = 0f;
-                                gridCommentsValue.BorderWidthLeft = 0f;
+                                //gridCommentsValue.BorderWidthLeft = 0f;
                                 //gridCommentsValue.BorderWidthBottom = 0f;
                                 gridCommentsValue.PaddingTop = 5f;
                                 gridCommentsValue.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
                                 table.AddCell(gridCommentsValue);
                             }
 
-                            //pdfFooter.InspectedBy = ds.Tables[0].Rows[0]["EmployeeName"].ToString();
+                            pdfFooter.InspectedBy = ds.Tables[0].Rows[0]["EmployeeName"].ToString();
 
-                            PdfPCell footer = new PdfPCell(new Phrase("Inspector Sign   : " + ds.Tables[0].Rows[0]["EmployeeName"].ToString() + "", FontFactory.GetFont("Arial", BaseFont.WINANSI, BaseFont.EMBEDDED, 10, iTextSharp.text.Font.NORMAL, BaseColor.BLACK)));
-                            footer.Colspan = 5;
-                            footer.PaddingTop = 25f;
-                            footer.FixedHeight = 45f;
-                            footer.VerticalAlignment = 1;
-                            footer.BorderWidth = 0.5f;
-                            //footer.HorizontalAlignment = 0; //0=Left, 1=Centre, 2=Right
-                            table.AddCell(footer);
+                            //PdfPCell footer = new PdfPCell(new Phrase("Inspector Sign   : " + ds.Tables[0].Rows[0]["EmployeeName"].ToString() + "", FontFactory.GetFont("Arial", BaseFont.WINANSI, BaseFont.EMBEDDED, 10, iTextSharp.text.Font.NORMAL, BaseColor.BLACK)));
+                            //footer.Colspan = 5;
+                            //footer.PaddingTop = 25f;
+                            //footer.FixedHeight = 45f;
+                            //footer.VerticalAlignment = 1;
+                            //footer.BorderWidth = 0.5f;
+                            ////footer.HorizontalAlignment = 0; //0=Left, 1=Centre, 2=Right
+                            //table.AddCell(footer);
 
                             document.Add(table);
                             document.Close();
@@ -1525,98 +1523,6 @@ namespace VV.Web.Views
                             Response.End();
                             Response.Close();
                             writer.Add(table);
-
-                            #region Need to remove bellow committed code
-                            //table = new PdfPTable(2);
-                            //cell = new PdfPCell(new Phrase("PATROL INSPECTION CHECKLIST", FontFactory.GetFont("Arial", BaseFont.WINANSI, BaseFont.EMBEDDED, 10, iTextSharp.text.Font.BOLD, BaseColor.BLACK)));
-                            //table.AddCell(cell);
-                            //PdfPCell nesthousing = new PdfPCell(table);
-                            //nesthousing.Padding = 0f;
-                            //table.AddCell(nesthousing);
-                            //cell = new PdfPCell(new Phrase("P.Order No : ", FontFactory.GetFont("Arial", BaseFont.WINANSI, BaseFont.EMBEDDED, 10, iTextSharp.text.Font.NORMAL, BaseColor.BLACK)));
-                            //cell.FixedHeight = 100f;
-                            //cell.VerticalAlignment = 1;
-                            //cell.PaddingTop = 5f;
-                            //cell.BorderColor = BaseColor.BLACK;
-                            //cell.Border = iTextSharp.text.Rectangle.BOX;
-                            //table.AddCell(cell);
-
-                            //Header Table
-                            //table = new PdfPTable(1);
-                            //table.TotalWidth = 500f;
-                            //table.LockedWidth = true;
-                            ////table.SetWidths(new float[] { 0.3f, 0.7f });
-
-                            ////Company Logo
-                            //cell = new PdfPCell(new Phrase("", FontFactory.GetFont("Arial", BaseFont.WINANSI, BaseFont.EMBEDDED, 13, iTextSharp.text.Font.NORMAL, BaseColor.BLACK)));
-                            ////cell.BackgroundColor = new BaseColor(255, 255, 255);
-                            //cell.HorizontalAlignment = Element.ALIGN_CENTER;
-                            //cell.BorderColor = BaseColor.BLACK;
-                            //cell.Border = iTextSharp.text.Rectangle.BOX;
-                            //cell = ImageCell("../Image/logo_velan.png", 5f, PdfPCell.ALIGN_LEFT);
-                            //table.AddCell(cell);
-
-                            ////Header Name 
-                            //cell = PhraseCell(new Phrase("PATROL INSPECTION CHECKLIST", FontFactory.GetFont("Arial", 10, iTextSharp.text.Font.BOLD, BaseColor.BLACK)), PdfPCell.ALIGN_RIGHT);
-                            //cell.Colspan = 2;
-                            //table.AddCell(cell);
-
-                            ////Company Name and Address
-                            //phrase = new Phrase();
-                            //phrase.Add(new Chunk("Microsoft Northwind Traders Company\n\n", FontFactory.GetFont("Arial", 16, iTextSharp.text.Font.BOLD, BaseColor.RED)));
-                            //phrase.Add(new Chunk("107, Park site,\n", FontFactory.GetFont("Arial", 8, iTextSharp.text.Font.NORMAL, BaseColor.BLACK)));
-                            //phrase.Add(new Chunk("Salt Lake Road,\n", FontFactory.GetFont("Arial", 8, iTextSharp.text.Font.NORMAL, BaseColor.BLACK)));
-                            //phrase.Add(new Chunk("Seattle, USA", FontFactory.GetFont("Arial", 8, iTextSharp.text.Font.NORMAL, BaseColor.BLACK)));
-                            //cell = PhraseCell(phrase, PdfPCell.ALIGN_LEFT);
-                            //cell.VerticalAlignment = PdfPCell.ALIGN_TOP;
-                            //table.AddCell(cell);
-
-                            //Separater Line
-                            //color = new BaseColor(System.Drawing.ColorTranslator.FromHtml("#A9A9A9"));
-                            //DrawLine(writer, 25f, document.Top - 79f, document.PageSize.Width - 25f, document.Top - 79f, color);
-                            //DrawLine(writer, 25f, document.Top - 80f, document.PageSize.Width - 25f, document.Top - 80f, color);
-                            //document.Add(table);
-
-                            //table = new PdfPTable(2);
-                            //table.HorizontalAlignment = Element.ALIGN_LEFT;
-                            //table.SetWidths(new float[] { 0.3f, 1f });
-                            //table.SpacingBefore = 20f;
-
-                            //cell = PhraseCell(new Phrase(), PdfPCell.ALIGN_CENTER);
-                            //cell.Colspan = 2;
-                            //cell.PaddingBottom = 30f;
-                            //cell.PaddingLeft = 40f;
-                            //table.AddCell(cell);
-
-                            //Addtional Information
-                            //table.AddCell(PhraseCell(new Phrase("Addtional Information:", FontFactory.GetFont("Arial", 8, iTextSharp.text.Font.BOLD, BaseColor.BLACK)), PdfPCell.ALIGN_LEFT));
-                            //table.AddCell(PhraseCell(new Phrase(dr["Notes"].ToString(), FontFactory.GetFont("Arial", 8, iTextSharp.text.Font.NORMAL, BaseColor.BLACK)), PdfPCell.ALIGN_JUSTIFIED));
-
-                            //iTextSharp.text.Image cellImage = iTextSharp.text.Image.GetInstance(HttpContext.Current.Server.MapPath("~/FileUpload/" + ds3.Tables[0].Rows[i]["MeetsImage"].ToString() + ""));
-                            //cellImage.Alignment = iTextSharp.text.Image.ALIGN_CENTER;
-
-                            //if (cellImage.Height > cellImage.Width)
-                            //{
-                            //    //Maximum height is 800 pixels.
-                            //    float percentage = 0.0f;
-                            //    percentage = 700 / cellImage.Height;
-                            //    cellImage.ScalePercent(percentage * 100);
-                            //}
-                            //else
-                            //{
-                            //    //Maximum width is 600 pixels.
-                            //    //float percentage = 0.0f;
-                            //    // percentage = 140 / image.Width;
-                            //    //image.ScalePercent(percentage * 100);
-                            //    cellImage.ScaleToFit(100f, 100f);
-                            //    //image.Alignment = iTextSharp.text.Image.ALIGN_LEFT;
-
-                            //    cellImage.SetAbsolutePosition(document.Left, document.Top - 180);
-
-                            //    cellImage.BorderWidth = 2f;
-                            //}
-
-                            #endregion
                         }
                     }
                 }
@@ -1670,32 +1576,36 @@ namespace VV.Web.Views
 
         }
 
-        //private static PdfPCell GridImage(string path, float scale, int align)
-        //{
-        //    iTextSharp.text.Image cellImage = iTextSharp.text.Image.GetInstance(HttpContext.Current.Server.MapPath("~/FileUpload/" + ds3.Tables[0].Rows[i]["MeetsImage"].ToString() + ""));
-        //    cellImage.Alignment = iTextSharp.text.Image.ALIGN_CENTER;
+        protected void CheckBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            foreach (GridViewRow row in gridPatrolInspection.Rows)
+            {
+                bool isChecked = ((CheckBox)row.FindControl("CheckBox1")).Checked;
+                if (isChecked)
+                {
+                    var savedImage = string.Empty;
+                    string path = "";
+                    string image = string.Empty;
 
-        //    if (cellImage.Height > cellImage.Width)
-        //    {
-        //        //Maximum height is 800 pixels.
-        //        float percentage = 0.0f;
-        //        percentage = 700 / cellImage.Height;
-        //        cellImage.ScalePercent(percentage * 100);
-        //    }
-        //    else
-        //    {
-        //        //Maximum width is 600 pixels.
-        //        //float percentage = 0.0f;
-        //        // percentage = 140 / image.Width;
-        //        //image.ScalePercent(percentage * 100);
-        //        cellImage.ScaleToFit(100f, 100f);
-        //        //image.Alignment = iTextSharp.text.Image.ALIGN_LEFT;
+                    string lblCheckListSerial = ((Label)row.FindControl("lblCheckListSerial")).Text.ToString();
+                    string lblCheckListDescription = ((Label)row.FindControl("lblCheckListDescription")).Text.ToString();
+                    DropDownList ddlMeets = ((DropDownList)row.FindControl("ddlMeets"));
+                    string txtObservation = ((TextBox)row.FindControl("txtObservation")).Text.ToString();
 
-        //        cellImage.SetAbsolutePosition(document.Left, document.Top - 180);
+                    savedImage = ((System.Web.UI.WebControls.Image)row.FindControl("Image1")).ImageUrl;
 
-        //        cellImage.BorderWidth = 2f;
-        //    }
+                    FileUpload FileUpload = (FileUpload)row.FindControl("FileUpload1");
 
-        //}
+                    if (savedImage != "NoImageFound_1.jpg")
+                    {
+                        // Patrol Details
+                        _DBObj.UpdatePatrolInspectionDetails(txtPatrolNumber.Text, lblCheckListSerial.ToString(), ddlMeets.SelectedValue, txtObservation.ToString(),
+                            "", "", "", "");
+                    }
+                }
+            }
+
+            txtPatrolNumber_TextChanged(sender, e);
+        }
     }
 }
