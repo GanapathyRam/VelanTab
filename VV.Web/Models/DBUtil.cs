@@ -523,7 +523,7 @@ namespace VV
         }
 
 
-        public DataSet GetProductionReleaseNewForPatrolWithSerial(String ProdOrderNo)
+        public DataSet GetProductionReleaseNewForPatrolWithSerial(String ProdOrderNo, String LocationCode, String SubLocationCode)
         {
             DataSet ds = new DataSet();
             try
@@ -534,6 +534,8 @@ namespace VV
                 cmd.CommandType = CommandType.StoredProcedure;
 
                 cmd.Parameters.Add(new SqlParameter("@ProdOrderNo", ProdOrderNo));
+                cmd.Parameters.Add(new SqlParameter("@LocationCode", LocationCode));
+                cmd.Parameters.Add(new SqlParameter("@SubLocationCode", SubLocationCode));
 
                 SqlDataAdapter da = new SqlDataAdapter();
                 da.SelectCommand = cmd;
@@ -581,7 +583,7 @@ namespace VV
             }
         }
 
-        public DataSet GetProductionReleaseNewForPatrolWithOutSerial(String ProdOrderNo)
+        public DataSet GetProductionReleaseNewForPatrolWithOutSerial(String ProdOrderNo, String LocationCode, String SubLocationCode)
         {
             DataSet ds = new DataSet();
             try
@@ -592,6 +594,8 @@ namespace VV
                 cmd.CommandType = CommandType.StoredProcedure;
 
                 cmd.Parameters.Add(new SqlParameter("@ProdOrderNo", ProdOrderNo));
+                cmd.Parameters.Add(new SqlParameter("@LocationCode", LocationCode));
+                cmd.Parameters.Add(new SqlParameter("@SubLocationCode", SubLocationCode));
 
                 SqlDataAdapter da = new SqlDataAdapter();
                 da.SelectCommand = cmd;
@@ -650,7 +654,7 @@ namespace VV
             {
                 this.init();
 
-                SqlCommand cmd = new SqlCommand("select EmployeeCode, EmployeeName from DCEmployeeMaster Order by DCEmployeeMaster.EmployeeName", conn);
+                SqlCommand cmd = new SqlCommand("select EmployeeCode, EmployeeName from DCEmployeeMaster where Qc = 1 Order by DCEmployeeMaster.EmployeeName", conn);
                 cmd.CommandTimeout = 1000;
                 cmd.CommandType = CommandType.Text;
 
@@ -706,7 +710,7 @@ namespace VV
             {
                 this.init();
 
-                SqlCommand cmd = new SqlCommand("select OperatorCode, OperatorName from OperatorMaster Order by OperatorName desc", conn);
+                SqlCommand cmd = new SqlCommand("select OperatorCode, OperatorName from OperatorMaster Order by OperatorName", conn);
                 cmd.CommandType = CommandType.Text;
 
                 SqlDataAdapter da = new SqlDataAdapter();

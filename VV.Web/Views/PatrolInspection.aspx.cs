@@ -106,11 +106,11 @@ namespace VV.Web.Views
             {
                 DataSet ds1 = new DataSet();
 
-                ds1 = _DBObj.GetProductionReleaseNewForPatrolWithSerial(ProdOrderNo);
+                ds1 = _DBObj.GetProductionReleaseNewForPatrolWithSerial(ProdOrderNo, ddlLocation.SelectedValue, ddlSubLocation.SelectedValue);
 
                 if (ds1 != null && ds1.Tables[0].Rows.Count == 0)
                 {
-                    ds1 = _DBObj.GetProductionReleaseNewForPatrolWithOutSerial(ProdOrderNo);
+                    ds1 = _DBObj.GetProductionReleaseNewForPatrolWithOutSerial(ProdOrderNo, ddlLocation.SelectedValue, ddlSubLocation.SelectedValue);
 
                     if (ds1 != null && ds1.Tables[0].Rows.Count > 0)
                     {
