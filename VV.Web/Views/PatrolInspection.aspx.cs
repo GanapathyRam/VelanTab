@@ -259,7 +259,7 @@ namespace VV.Web.Views
 
             lblMessage.Visible = false;
 
-            if (!string.IsNullOrEmpty(txtPatrolNumber.Text))
+            if (!string.IsNullOrEmpty(txtPatrolNumber.Text.Trim()))
             {
                 ds = _DBObj.GetCheckListMasterDetails(ddlLocation.SelectedValue, ddlSubLocation.SelectedValue);
 
@@ -887,7 +887,7 @@ namespace VV.Web.Views
                     txtProdOrderNo.Text = Convert.ToString(ds.Tables[0].Rows[0]["ProdOrderNo"]);
                     txtPatrolQty.Text = Convert.ToString(ds.Tables[0].Rows[0]["PatrolQty"]);
 
-                    ddlOperator.SelectedIndex = Convert.ToInt32(ds.Tables[0].Rows[0]["OperatorCode"]);
+                    ddlOperator.SelectedValue = Convert.ToString(ds.Tables[0].Rows[0]["OperatorCode"]);
                     ddlShift.SelectedValue = Convert.ToString(ds.Tables[0].Rows[0]["ShiftCode"]);
                     ddlInspBy.SelectedValue = Convert.ToString(ds.Tables[0].Rows[0]["EmployeeCode"]);
                     txtRemarks.Text = Convert.ToString(ds.Tables[0].Rows[0]["Remarks"]);
@@ -1054,30 +1054,10 @@ namespace VV.Web.Views
                 {
                     lblMessage.Visible = true;
                     lblMessage.ForeColor = System.Drawing.Color.Red;
-                    lblMessage.Text = "Select Serial No to delete";
+                    lblMessage.Text = "Select Serial no's to delete";
 
                     return;
                 }
-
-                // Get Patrol Master
-                //DataSet ds = _DBObj.GetPatrolMaster(txtPatrolNumber.Text.Trim());
-
-                //if (ds != null && ds.Tables[0].Rows.Count > 0)
-                //{
-                //    _DBObj.DeletePatrolInspectionSerials(txtPatrolNumber.Text.Trim());
-
-                //    lblMessage.Visible = true;
-                //    lblMessage.ForeColor = System.Drawing.Color.Green;
-                //    lblMessage.Text = "Selected serial no has been removed successfully.";
-                //}
-                //else
-                //{
-                //    lblMessage.Visible = true;
-                //    lblMessage.ForeColor = System.Drawing.Color.Red;
-                //    lblMessage.Text = "Select serial no to be removed from the system.";
-
-                //    return;
-                //}
             }
             catch (Exception ex)
             {
@@ -1463,7 +1443,7 @@ namespace VV.Web.Views
                                     cellImage.BorderWidthRight = 0f;
                                     cellImage.BorderWidthLeft = 0f;
 
-                                    img.ScaleAbsolute(200, 200);
+                                    img.ScaleAbsolute(210, 210);
                                     nested.AddCell(cellImage);
                                 }
                                 else

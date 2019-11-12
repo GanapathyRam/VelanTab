@@ -1184,6 +1184,470 @@ namespace VV
 
         #endregion
 
+        #region Leak Test
+
+        public string GetLeakTestNumber()
+        {
+            DataSet ds = new DataSet();
+            var patrolNumber = string.Empty;
+
+            try
+            {
+                this.init();
+
+                SqlCommand cmd = new SqlCommand("[uspGetLeakTestNumber]", conn);
+                cmd.CommandTimeout = 1000;
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                SqlDataAdapter da = new SqlDataAdapter();
+                da.SelectCommand = cmd;
+
+                da.Fill(ds);
+                conn.Close();
+
+                if (ds.Tables[0].Rows.Count > 0)
+                {
+                    patrolNumber = Convert.ToString(ds.Tables[0].Rows[0]["LeakTestNumber"].ToString());
+                }
+
+                return patrolNumber;
+            }
+            catch (Exception ex)
+            {
+                conn.Close();
+                Logger.Write(this.GetType().ToString() + " : GetLeakTestNumber : " + " : " + DateTime.Now + " : " + ex.Message.ToString(), Category.General, Priority.Highest);
+                throw ex;
+            }
+        }
+
+        public DataSet GetProductionReleaseNewForLeakTestWithSerial(String ProdOrderNo, String SubLocationCode)
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                this.init();
+
+                SqlCommand cmd = new SqlCommand("[spGetProductionReleaseNewForLeakTestWithSerial]", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.Add(new SqlParameter("@ProdOrderNo", ProdOrderNo));
+                cmd.Parameters.Add(new SqlParameter("@SubLocationCode", SubLocationCode));
+
+                SqlDataAdapter da = new SqlDataAdapter();
+                da.SelectCommand = cmd;
+
+                da.Fill(ds);
+
+                conn.Close();
+
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                conn.Close();
+                Logger.Write(this.GetType().ToString() + " : GetProductionReleaseNewForLeakTestWithSerial : " + " : " + DateTime.Now + " : " + ex.Message.ToString(), Category.General, Priority.Highest);
+                throw ex;
+            }
+        }
+
+        public DataSet GetProductionReleaseNewForLeakTestWithOutSerial(String ProdOrderNo, String SubLocationCode)
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                this.init();
+
+                SqlCommand cmd = new SqlCommand("[spGetProductionReleaseNewForLeakTestWithOutSerial]", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.Add(new SqlParameter("@ProdOrderNo", ProdOrderNo));
+                cmd.Parameters.Add(new SqlParameter("@SubLocationCode", SubLocationCode));
+
+                SqlDataAdapter da = new SqlDataAdapter();
+                da.SelectCommand = cmd;
+
+                da.Fill(ds);
+
+                conn.Close();
+
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                conn.Close();
+                Logger.Write(this.GetType().ToString() + " : GetProductionReleaseNewForLeakTestWithOutSerial : " + " : " + DateTime.Now + " : " + ex.Message.ToString(), Category.General, Priority.Highest);
+                throw ex;
+            }
+        }
+
+        public DataSet GetProductionReleaseNewForLeakTest(String ProdOrderNo, String SubLocationCode)
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                this.init();
+
+                SqlCommand cmd = new SqlCommand("[spGetProductionReleaseNewForLeakTest]", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.Add(new SqlParameter("@ProdOrderNo", ProdOrderNo));
+                cmd.Parameters.Add(new SqlParameter("@SubLocationCode", SubLocationCode));
+
+
+                SqlDataAdapter da = new SqlDataAdapter();
+                da.SelectCommand = cmd;
+
+                da.Fill(ds);
+
+                conn.Close();
+
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                conn.Close();
+                Logger.Write(this.GetType().ToString() + " : GetProductionReleaseNewForLeakTest : " + " : " + DateTime.Now + " : " + ex.Message.ToString(), Category.General, Priority.Highest);
+                throw ex;
+            }
+        }
+
+        public void DeleteLeakTestSerials(String PatrolNumber, String SerialNo, int SerialCount, int IsDeleteOrUpdate)
+        {
+            try
+            {
+                this.init();
+
+                SqlCommand cmd = new SqlCommand("[spDeleteLeakTestSerial]", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                string UserName = (String)HttpContext.Current.Session["LoggedOnUser"];
+
+                cmd.Parameters.Add(new SqlParameter("@LeakTestNumber", PatrolNumber)); // String
+                cmd.Parameters.Add(new SqlParameter("@SerialNo", SerialNo));
+                cmd.Parameters.Add(new SqlParameter("@LeakTestQty", SerialCount));
+                cmd.Parameters.Add(new SqlParameter("@IsDeleteOrUpdate", IsDeleteOrUpdate));
+
+                cmd.ExecuteNonQuery();
+
+                conn.Close();
+            }
+            catch (Exception ex)
+            {
+                conn.Close();
+                Logger.Write(this.GetType().ToString() + " : DeleteLeakTestSerials() : " + " : " + DateTime.Now + " : " + ex.Message.ToString(), Category.General, Priority.Highest);
+                throw ex;
+            }
+        }
+
+        public DataSet GetLeakTestDetails(String LeakTestNumber)
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                this.init();
+
+                SqlCommand cmd = new SqlCommand("[spGetLeakTestDetails]", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.Add(new SqlParameter("@LeakTestNumber", LeakTestNumber));
+
+                SqlDataAdapter da = new SqlDataAdapter();
+                da.SelectCommand = cmd;
+
+                da.Fill(ds);
+
+                conn.Close();
+
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                conn.Close();
+                Logger.Write(this.GetType().ToString() + " : GetLeakTestDetails() : " + " : " + DateTime.Now + " : " + ex.Message.ToString(), Category.General, Priority.Highest);
+                throw ex;
+            }
+        }
+
+        public bool IsLeakTestNumberExist(string LeakTestNo)
+        {
+            DataSet ds = new DataSet();
+            var patrolNumber = string.Empty;
+            bool isExist = false;
+
+            try
+            {
+                this.init();
+
+                SqlCommand cmd = new SqlCommand("select LeakTestNumber from LeakTestMaster where LeakTestNumber = '" + LeakTestNo + "'", conn);
+                cmd.CommandTimeout = 1000;
+                cmd.CommandType = CommandType.Text;
+
+                SqlDataAdapter da = new SqlDataAdapter();
+                da.SelectCommand = cmd;
+
+                da.Fill(ds);
+                conn.Close();
+
+                if (ds.Tables[0].Rows.Count > 0)
+                {
+                    patrolNumber = Convert.ToString(ds.Tables[0].Rows[0]["LeakTestNumber"].ToString());
+
+                    if (!string.IsNullOrEmpty(patrolNumber))
+                    {
+                        isExist = true;
+                    }
+                }
+
+                return isExist;
+            }
+            catch (Exception ex)
+            {
+                conn.Close();
+                Logger.Write(this.GetType().ToString() + " : GetLeakTestNo : " + " : " + DateTime.Now + " : " + ex.Message.ToString(), Category.General, Priority.Highest);
+                throw ex;
+            }
+        }
+
+        public void InsertLeakTestMaster(String LeakTestNumber, DateTime LeakTestDate, String ProdOrderNo, String SubLocationCode, 
+            int LeakTestQty, String OperatorCode, String Remarks, DateTime CreatedDateTime)
+        {
+            try
+            {
+                this.init();
+
+                SqlCommand cmd = new SqlCommand("[spInsertLeakTestMaster]", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                string UserName = (String)HttpContext.Current.Session["LoggedOnUser"];
+
+                cmd.Parameters.Add(new SqlParameter("@LeakTestNumber", LeakTestNumber)); // String
+                cmd.Parameters.Add(new SqlParameter("@LeakTestDate", LeakTestDate));
+                cmd.Parameters.Add(new SqlParameter("@ProdOrderNo", ProdOrderNo));
+
+                cmd.Parameters.Add(new SqlParameter("@SubLocationCode", SubLocationCode));
+
+                cmd.Parameters.Add(new SqlParameter("@LeakTestQty", LeakTestQty));
+                cmd.Parameters.Add(new SqlParameter("@OperatorCode", OperatorCode));
+
+                cmd.Parameters.Add(new SqlParameter("@Remarks", Remarks));
+
+                cmd.Parameters.Add(new SqlParameter("@CreatedDateTime", CreatedDateTime));
+
+
+                cmd.ExecuteNonQuery();
+
+                conn.Close();
+            }
+            catch (Exception ex)
+            {
+                conn.Close();
+                Logger.Write(this.GetType().ToString() + " : InsertPatrolInspectionMaster() : " + " : " + DateTime.Now + " : " + ex.Message.ToString(), Category.General, Priority.Highest);
+                throw ex;
+            }
+        }
+
+        public void InsertLeakTestDetails(String LeakTestNumber, String SerialNo, int ShellLeak, int HighPressureSeatLeak,
+            int LowPressureSeatLeak, int BackSeatLeak, int WeldLeak, int JointLeak, int TrapShellLeak, int TrapWeldLeak, int TrapJointLeak, int TrapShutLeak)
+        {
+            try
+            {
+                this.init();
+
+                SqlCommand cmd = new SqlCommand("[spInsertLeakTestDetails]", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                string UserName = (String)HttpContext.Current.Session["LoggedOnUser"];
+
+                cmd.Parameters.Add(new SqlParameter("@LeakTestNumber", LeakTestNumber)); // String
+                cmd.Parameters.Add(new SqlParameter("@SerialNo", SerialNo));
+
+                cmd.Parameters.Add(new SqlParameter("@ShellLeak", ShellLeak));
+                cmd.Parameters.Add(new SqlParameter("@HighPressureSeatLeak", HighPressureSeatLeak));
+
+                cmd.Parameters.Add(new SqlParameter("@LowPressureSeatLeak", LowPressureSeatLeak));
+                cmd.Parameters.Add(new SqlParameter("@BackSeatLeak", BackSeatLeak));
+
+                cmd.Parameters.Add(new SqlParameter("@WeldLeak", WeldLeak));
+                cmd.Parameters.Add(new SqlParameter("@JointLeak", JointLeak));
+
+                cmd.Parameters.Add(new SqlParameter("@TrapShellLeak", TrapShellLeak));
+                cmd.Parameters.Add(new SqlParameter("@TrapWeldLeak", TrapWeldLeak));
+                cmd.Parameters.Add(new SqlParameter("@TrapJointLeak", TrapJointLeak));
+                cmd.Parameters.Add(new SqlParameter("@TrapShutLeak", TrapShutLeak));
+
+
+                cmd.ExecuteNonQuery();
+
+                conn.Close();
+            }
+            catch (Exception ex)
+            {
+                conn.Close();
+                Logger.Write(this.GetType().ToString() + " : InsertPatrolInspectionDetails() : " + " : " + DateTime.Now + " : " + ex.Message.ToString(), Category.General, Priority.Highest);
+                throw ex;
+            }
+        }
+
+        public void UpdateLeakTestMaster(String LeakTestNumber, DateTime LeakTestDate, String ProdOrderNo, int LeakTestQty, String OperatorCode, String Remarks, DateTime UpdatedDateTime)
+        {
+            try
+            {
+                this.init();
+
+                SqlCommand cmd = new SqlCommand("[spUpdateLeakTestMaster]", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                string UserName = (String)HttpContext.Current.Session["LoggedOnUser"];
+
+                cmd.Parameters.Add(new SqlParameter("@LeakTestNumber", LeakTestNumber)); // String
+                cmd.Parameters.Add(new SqlParameter("@LeakTestDate", LeakTestDate));
+                cmd.Parameters.Add(new SqlParameter("@ProdOrderNo", ProdOrderNo));
+
+                //cmd.Parameters.Add(new SqlParameter("@SubLocationCode", SubLocationCode));
+
+                cmd.Parameters.Add(new SqlParameter("@LeakTestQty", LeakTestQty));
+                cmd.Parameters.Add(new SqlParameter("@OperatorCode", OperatorCode));
+
+                cmd.Parameters.Add(new SqlParameter("@Remarks", Remarks));
+
+                cmd.Parameters.Add(new SqlParameter("@UpdatedDateTime", UpdatedDateTime));
+
+
+                cmd.ExecuteNonQuery();
+
+                conn.Close();
+            }
+            catch (Exception ex)
+            {
+                conn.Close();
+                Logger.Write(this.GetType().ToString() + " : UpdateLeakTestMaster() : " + " : " + DateTime.Now + " : " + ex.Message.ToString(), Category.General, Priority.Highest);
+                throw ex;
+            }
+        }
+
+        public void UpdateLeakTestDetails(String LeakTestNumber, String SerialNo, int ShellLeak, int HighPressureSeatLeak,
+            int LowPressureSeatLeak, int BackSeatLeak, int WeldLeak, int JointLeak, int TrapShellLeak, int TrapWeldLeak, int TrapJointLeak, int TrapShutLeak)
+        {
+            try
+            {
+                this.init();
+
+                SqlCommand cmd = new SqlCommand("[spUpdateLeakTestDetails]", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                string UserName = (String)HttpContext.Current.Session["LoggedOnUser"];
+
+                cmd.Parameters.Add(new SqlParameter("@LeakTestNumber", LeakTestNumber)); // String
+                cmd.Parameters.Add(new SqlParameter("@SerialNo", SerialNo));
+
+                cmd.Parameters.Add(new SqlParameter("@ShellLeak", ShellLeak));
+                cmd.Parameters.Add(new SqlParameter("@HighPressureSeatLeak", HighPressureSeatLeak));
+
+                cmd.Parameters.Add(new SqlParameter("@LowPressureSeatLeak", LowPressureSeatLeak));
+                cmd.Parameters.Add(new SqlParameter("@BackSeatLeak", BackSeatLeak));
+
+                cmd.Parameters.Add(new SqlParameter("@WeldLeak", WeldLeak));
+                cmd.Parameters.Add(new SqlParameter("@JointLeak", JointLeak));
+
+                cmd.Parameters.Add(new SqlParameter("@TrapShellLeak", TrapShellLeak));
+                cmd.Parameters.Add(new SqlParameter("@TrapWeldLeak", TrapWeldLeak));
+                cmd.Parameters.Add(new SqlParameter("@TrapJointLeak", TrapJointLeak));
+                cmd.Parameters.Add(new SqlParameter("@TrapShutLeak", TrapShutLeak));
+
+                cmd.ExecuteNonQuery();
+
+                conn.Close();
+            }
+            catch (Exception ex)
+            {
+                conn.Close();
+                Logger.Write(this.GetType().ToString() + " : UpdateLeakTestDetails() : " + " : " + DateTime.Now + " : " + ex.Message.ToString(), Category.General, Priority.Highest);
+                throw ex;
+            }
+        }
+
+        public DataSet GetLeakTestSerial(string LeakTestNumber)
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                this.init();
+
+                SqlCommand cmd = new SqlCommand("select SerialNo from LeakTestDetail where LeakTestNumber = '" + LeakTestNumber + "'", conn);
+                cmd.CommandType = CommandType.Text;
+
+                SqlDataAdapter da = new SqlDataAdapter();
+                da.SelectCommand = cmd;
+
+                da.Fill(ds);
+
+                conn.Close();
+
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                conn.Close();
+                Logger.Write(this.GetType().ToString() + " : GetLeakTestSerial() : " + " : " + DateTime.Now + " : " + ex.Message.ToString(), Category.General, Priority.Highest);
+                throw ex;
+            }
+        }
+
+        public DataSet GetLeakTestMaster(String LeakTestNumber)
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                this.init();
+
+                SqlCommand cmd = new SqlCommand("[spGetLeakTestMaster]", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.Add(new SqlParameter("@LeakTestNumber", LeakTestNumber));
+
+                SqlDataAdapter da = new SqlDataAdapter();
+                da.SelectCommand = cmd;
+
+                da.Fill(ds);
+
+                conn.Close();
+
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                conn.Close();
+                Logger.Write(this.GetType().ToString() + " : GetLeakTestMaster() : " + " : " + DateTime.Now + " : " + ex.Message.ToString(), Category.General, Priority.Highest);
+                throw ex;
+            }
+        }
+
+        public void DeleteLeakTestMasterAndDetails(String LeakTestNumber)
+        {
+            try
+            {
+                this.init();
+
+                SqlCommand cmd = new SqlCommand("[spDeleteLeakTestMasterAndDetails]", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                string UserName = (String)HttpContext.Current.Session["LoggedOnUser"];
+
+                cmd.Parameters.Add(new SqlParameter("@LeakTestNumber", LeakTestNumber)); // String
+
+                cmd.ExecuteNonQuery();
+
+                conn.Close();
+            }
+            catch (Exception ex)
+            {
+                conn.Close();
+                Logger.Write(this.GetType().ToString() + " : DeleteLeakTestMasterAndDetails() : " + " : " + DateTime.Now + " : " + ex.Message.ToString(), Category.General, Priority.Highest);
+                throw ex;
+            }
+        }
+        #endregion
+
 
     }
 

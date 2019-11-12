@@ -218,6 +218,7 @@
     <Content Include="Views\BulkHeatNoUpdate.aspx" />
     <Content Include="Views\FindPatrolNumber.aspx" />
     <Content Include="Views\ICSOrders.aspx" />
+    <Content Include="Views\LeakTest.aspx" />
     <Content Include="Views\NonICSOrders.aspx" />
     <Content Include="Views\PatrolInspection.aspx" />
     <Content Include="Web.config" />
@@ -296,6 +297,13 @@
     </Compile>
     <Compile Include="Views\ICSOrders.aspx.designer.cs">
       <DependentUpon>ICSOrders.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LeakTest.aspx.cs">
+      <DependentUpon>LeakTest.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Views\LeakTest.aspx.designer.cs">
+      <DependentUpon>LeakTest.aspx</DependentUpon>
     </Compile>
     <Compile Include="Views\NonICSOrders.aspx.cs">
       <DependentUpon>NonICSOrders.aspx</DependentUpon>
