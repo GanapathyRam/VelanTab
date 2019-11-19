@@ -56,17 +56,22 @@ namespace VV.Web.Views
 
                 if (!savedYear.Equals(currentYear))
                 {
-                    currentYear = Convert.ToString("L" + currentYear + "1");
+                    currentYear = Convert.ToString("L" + currentYear + "0001");
                 }
                 else
                 {
-                    var workOrderInc = Int32.Parse(model.ToString().Substring(3)) + 1;
-                    currentYear = Convert.ToString("L" + currentYear + workOrderInc);
+                    var currentValue = model.ToString().Substring(3);
+
+                    //string input = "001";
+                    string output = (int.Parse(currentValue) + 1).ToString().PadLeft(currentValue.Length, '0');
+
+                    //var workOrderInc = Int32.Parse(model.ToString().Substring(3)) + 1;
+                    currentYear = Convert.ToString("L" + currentYear + output);
                 }
             }
             else
             {
-                currentYear = Convert.ToString("L" + currentYear + "1");
+                currentYear = Convert.ToString("L" + currentYear + "0001");
             }
 
             return currentYear;
@@ -527,6 +532,8 @@ namespace VV.Web.Views
 
                         ViewState["DeletedSerialNoList"] = Convert.ToString(updatedCount);
 
+                        //SetInitialRow(selectedSerialNoList, 0); // 0 means Prod Order Starting with '4' digits
+
                         //lblMessage.Visible = true;
                         //lblMessage.ForeColor = System.Drawing.Color.Green;
                         //lblMessage.Text = "Selected serial no has been removed successfully.";
@@ -545,6 +552,11 @@ namespace VV.Web.Views
             {
                 LogError(ex, "Exception from deleting leak test details.");
             }
+
+            //txtLeakTestNo_TextChanged(sender, e);
+
+            //// Get Serial No Grid View Details
+            //_DBObj.GetLeakTestSerial(txtLeakTestNo.Text.Trim());
         }
 
         protected void gridLeakTest_RowCommand(object sender, GridViewCommandEventArgs e)
@@ -842,7 +854,7 @@ namespace VV.Web.Views
                     txtDescription.Enabled = false;
                     txtCustomer.Enabled = false;
                     txtSaleOrder.Enabled = false;
-                    btnGenerate.Enabled = false;
+                    btnGenerate.Enabled = true;
                     btnDelete.Enabled = true;
                     btnPopDelete.Visible = true;
                     btnUpdate.Visible = true;

@@ -19,11 +19,22 @@
     text-align:center;
     margin-left: 215px;
 }
+grid-delete-button{
+    text-align:center;
+}
 .loc-grid-updatebutton{
     text-align:center;
     /*padding:20px;*/
     margin-left: 215px;
     margin-bottom:50px;
+}
+.leak-grid-updatebutton{
+    text-align:center;
+    padding:20px;
+}
+.leak-grid{
+    overflow: auto;
+    margin: 20px 0;
 }
 .sec-grid {
     margin: 10px 0;
@@ -66,6 +77,13 @@ input[type="text"], input[type="password"], input[type="email"], input[type="tel
         width:300px;
         margin-left:10px!important;
     }
+    .table-responsive {
+        padding: 15px;
+        border: none;
+    }
+    .ml-15{
+        margin-left:15px;
+    }
     .gen-button{
         padding-right:70px;
     }
@@ -75,6 +93,11 @@ input[type="text"], input[type="password"], input[type="email"], input[type="tel
     input[type="text"], input[type="password"], input[type="email"], input[type="tel"], input[type="select"] {
     max-width: inherit;
 }
+}
+
+@media (min-width: 769px) and (max-width: 992px) {
+
+
 }
 
 @media (min-width: 992px) and (max-width: 1200px) {

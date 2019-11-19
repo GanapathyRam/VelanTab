@@ -11,6 +11,7 @@
     <!-- Bootstrap DatePicker -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.css" type="text/css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.js" type="text/javascript"></script>
+
     <script lang="javascript" type="text/javascript">
         function Check(parentChk) {
 
@@ -86,8 +87,8 @@
     </asp:Panel>
 
     <div class="container-fluid" style="border-bottom: 1px solid; padding-bottom: 10px; border-bottom-color: silver;">
-        <div class="row" style="margin: 20px">
-            <div class="sec-grid col-lg-4 col-md-4 col-sm-6 col-xs-6">
+        <div class="row" style="margin: 20px;">
+            <div class="sec-grid col-lg-4 col-md-4 col-sm-6 col-xs-6" style="display:flex;">
                 <asp:Label ID="lblSubLocation" runat="server" Text="Type" CssClass="text-right form-required res-pad col-lg-4 col-md-5 col-sm-4 col-xs-5" required="required"></asp:Label>
                 <asp:DropDownList ID="ddlType" DataTextField="SubLocationName" DataValueField="SubLocationCode" runat="server" CssClass="input-box col-md-6 col-sm-6 col-xs-7"></asp:DropDownList>
                 <asp:RequiredFieldValidator ID="RequiredFieldValidator1" Text="*" ForeColor="Red" Font-Bold="true" Style="margin-left: 10px;" InitialValue="----Please Select----" ControlToValidate="ddlType" runat="server" />
@@ -124,10 +125,10 @@
                 <%--   <asp:Button ID="btnReport" OnClick="btnReport_Click" runat="server" Visible="true" Style="background-color: #c1c1c1;" CssClass="text-right btn btn-default" Text="Report" />--%>
             </div>
 
-            <div class="container-fluid" style="border-bottom: 1px solid; border-bottom-color: silver; padding-bottom: 100px;">
+            <div class="container-fluid">
                 <asp:UpdatePanel ID="UpdatePanel1" UpdateMode="Conditional" runat="server">
                     <ContentTemplate>
-                        <div class="table-responsive col-lg-9 col-md-9 col-sm-12 col-xs-12" style="height: 200px; width: 80%; overflow: auto;">
+                        <div class="table-responsive col-lg-9 col-md-9 col-sm-12 col-xs-12" style="width: 80%; overflow: auto;">
                             <asp:GridView ID="GridViewPopUp" runat="server" Style="width: 300px;" AutoGenerateColumns="false"
                                 OnPageIndexChanging="GridViewPopUp_PageIndexChanging" CssClass="table table-striped table-bordered table-hover"
                                 EmptyDataText="No Serial No(s) to display."
@@ -149,7 +150,7 @@
                                     </asp:TemplateField>
                                 </Columns>
                             </asp:GridView>
-                            <div class="loc-grid-button">
+                            <div class="grid-delete-button">
                                 <asp:Button ID="btnSubmit" Text="Submit" runat="server" CssClass="btn btn-default" OnClick="btnSubmit_Click" />
                                 <asp:Button ID="btnPopDelete" Text="Delete" Visible="false" runat="server" CssClass="btn btn-default" OnClick="btnPopDelete_Click" />
                             </div>
@@ -163,24 +164,24 @@
 
     <div class="container-fluid" style="border-bottom: 1px solid; border-bottom-color: silver; padding-bottom: 10px;">
         <div class="row" style="margin: 20px">
-            <div class="sec-grid col-lg-4 col-md-4 col-sm-6 col-xs-6">
-                <asp:Label ID="lblItemNumber" runat="server" Text="Item Number" CssClass="text-right col-lg-4 col-md-5 col-sm-4 col-xs-5"></asp:Label>
-                <asp:TextBox ID="txtItemNumber" runat="server" Style="width: 160px;" CssClass="form-control col-md-7 col-sm-8 col-xs-7"></asp:TextBox>
+            <div class="sec-grid col-lg-4 col-md-4 col-sm-6 col-xs-10">
+                <asp:Label ID="lblItemNumber" runat="server" Text="Item Number" CssClass="text-right margin-text col-lg-4 col-md-5 col-sm-4 col-xs-3"></asp:Label>
+                <asp:TextBox ID="txtItemNumber" runat="server" Style="width: 160px;" CssClass="form-control customer-box col-md-7 col-sm-8 col-xs-7"></asp:TextBox>
             </div>
-            <div class="sec-grid col-lg-8 col-md-8 col-sm-8 col-xs-9">
+            <div class="sec-grid col-lg-8 col-md-8 col-sm-8 col-xs-10">
                 <asp:Label ID="lblDescription" runat="server" Text="Description" CssClass="text-right margin-text col-md-2 col-sm-3 col-xs-3"></asp:Label>
                 <asp:TextBox ID="txtDescription" runat="server" Style="max-width: 400px; margin-left: -2px;" CssClass="form-control customer-box col-md-7 col-sm-7 col-xs-7"></asp:TextBox>
             </div>
-            <div class="sec-grid col-lg-4 col-md-4 col-sm-8 col-xs-9">
+            <div class="sec-grid col-lg-4 col-md-4 col-sm-8 col-xs-10">
                 <asp:Label ID="lblCustomer" runat="server" Text="Customer" CssClass="text-right margin-text col-lg-4 col-md-5 col-sm-3 col-xs-3"></asp:Label>
                 <asp:TextBox ID="txtCustomer" runat="server" CssClass="form-control cus-md customer-box col-md-8 col-sm-7 col-xs-7"></asp:TextBox>
             </div>
             <div class="sec-grid col-lg-4 col-md-4 col-sm-6 col-xs-6">
-                <asp:Label ID="lblSaleOrder" runat="server" Text="Sale Order" CssClass="text-right col-md-4 col-sm-4 col-xs-5"></asp:Label>
-                <asp:TextBox ID="txtSaleOrder" runat="server" CssClass="form-control col-md-5 col-sm-8 col-xs-7"></asp:TextBox>
+                <asp:Label ID="lblSaleOrder" runat="server" Text="Sale Order" CssClass="text-right margin-text col-md-4 col-sm-4 col-xs-5"></asp:Label>
+                <asp:TextBox ID="txtSaleOrder" runat="server" CssClass="form-control ml-15 col-md-5 col-sm-8 col-xs-7"></asp:TextBox>
             </div>
             <div class="sec-grid col-lg-4 col-md-4 col-sm-6 col-xs-6">
-                <asp:Label ID="lblProdOrdAndBalQty" runat="server" Visible="false" Text="Prod Ord & Bal Qty" CssClass="text-right col-md-4 col-sm-3 col-xs-3"></asp:Label>
+                <asp:Label ID="lblProdOrdAndBalQty" runat="server" Visible="false" Text="Prod Ord & Bal Qty" CssClass="text-right margin-text col-md-4 col-sm-3 col-xs-3"></asp:Label>
                 <asp:TextBox ID="txtProdOrdAndBalQty" runat="server" Visible="false" CssClass="form-control col-md-5 col-sm-8 col-xs-7"></asp:TextBox>
             </div>
         </div>
@@ -189,18 +190,18 @@
     <div class="container-fluid" style="border-bottom: 1px solid; border-bottom-color: silver; padding-bottom: 10px;">
         <div class="row" style="margin: 20px">
             <div class="sec-grid col-lg-4 col-md-4 col-sm-6 col-xs-6">
-                <asp:Label ID="Label2" runat="server" Text="Qty Tested" CssClass="text-right col-lg-4 col-md-5 col-sm-4 col-xs-5"></asp:Label>
-                <asp:TextBox ID="txtQtyTested" runat="server" Style="width: 160px;" CssClass="form-control col-md-7 col-sm-8 col-xs-7"></asp:TextBox>
+                <asp:Label ID="Label2" runat="server" Text="Qty Tested" CssClass="text-right col-lg-4 col-md-4 col-sm-4 col-xs-5"></asp:Label>
+                <asp:TextBox ID="txtQtyTested" runat="server"  CssClass="form-control col-md-5 col-sm-8 col-xs-7"></asp:TextBox>
             </div>
-            <div class="sec-grid col-lg-8 col-md-8 col-sm-8 col-xs-9">
-                <asp:Label ID="lblOperator" runat="server" Text="Operator" CssClass="text-right form-required margin-text col-md-2 col-sm-3 col-xs-3"></asp:Label>
-                <asp:DropDownList ID="ddlOperator" DataTextField="OperatorName" DataValueField="OperatorCode" runat="server" CssClass="input-box col-md-6 col-sm-6 col-xs-7"></asp:DropDownList>
+            <div class="sec-grid col-lg-4 col-md-4 col-sm-8 col-xs-10">
+                <asp:Label ID="lblOperator" runat="server" Text="Operator" CssClass="text-right form-required margin-text col-lg-4 col-md-5 col-sm-3 col-xs-3"></asp:Label>
+                <asp:DropDownList ID="ddlOperator" DataTextField="OperatorName" DataValueField="OperatorCode" runat="server" CssClass="input-box col-md-6 col-sm-7 col-xs-7"></asp:DropDownList>
                 <asp:RequiredFieldValidator ID="RequiredFieldValidator3" Text="*" ForeColor="Red" Font-Bold="true" Style="margin-left: 10px;" InitialValue="----Please Select----" ControlToValidate="ddlOperator" runat="server" />
 
             </div>
-            <div class="sec-grid col-lg-4 col-md-4 col-sm-8 col-xs-9">
+            <div class="sec-grid col-lg-4 col-md-4 col-sm-8 col-xs-10">
                 <asp:Label ID="lblRemarks" runat="server" Text="Remarks" CssClass="text-right margin-text col-lg-4 col-md-5 col-sm-3 col-xs-3"></asp:Label>
-                <asp:TextBox ID="txtRemarks" runat="server" CssClass="form-control cus-md customer-box col-md-8 col-sm-7 col-xs-7"></asp:TextBox>
+                <asp:TextBox ID="txtRemarks" runat="server" CssClass="form-control cus-md col-md-8 col-sm-7 col-xs-7"></asp:TextBox>
             </div>
         </div>
     </div>
@@ -209,7 +210,7 @@
 
 
     <div class="container-fluid">
-        <div class="table-responsive leak-grid col-lg-10 col-md-10 col-sm-12">
+        <div class="table-responsive leak-grid col-lg-12 col-md-12 col-sm-12">
             <div style="overflow:auto;">
                 <asp:GridView ID="gridLeakTest" OnRowCommand="gridLeakTest_RowCommand" AllowPaging="false"
                     OnRowEditing="gridLeakTest_RowEditing" OnRowUpdating="gridLeakTest_RowUpdating"
